@@ -43,8 +43,8 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(16.dp)) {
         StockTile(
             isGain = true,
-            ticker = "AAPL",
-            name = "Apple Inc. Common Stock",
+            ticker = "MSFT",
+            name = "Microsoft Corporation Common Stock",
             currentPrice = 239.07,
             variation = 1.59,
         )
