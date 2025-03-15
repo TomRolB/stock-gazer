@@ -55,4 +55,10 @@ val MontserratTypography = Typography(
         lineHeight = 16.sp * 1.5,
         letterSpacing = 0.5.sp
     ),
+    headlineLarge = TextStyle(
+        fontFamily = MontserratFontFamily,
+        fontSize = 30.sp,
+        lineHeight = 30.sp * 1.1,
+        letterSpacing = 0.sp
+    ),
 )

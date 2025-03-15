@@ -33,7 +33,7 @@ fun StockTile(
    Row(
        modifier = Modifier
            .background(PrimaryDark)
-           .padding(16.dp),
+           .padding(vertical = 16.dp),
        horizontalArrangement = Arrangement.spacedBy(16.dp)
    ) {
        AsyncImage(
@@ -64,7 +64,7 @@ fun StockTile(
                color = PrimaryLight,
            )
            Text(
-               "$variation%",
+               "%$variation",
                color = if (isGain) Gain300 else Loss300,
                textAlign = TextAlign.Right,
                fontWeight = FontWeight.Bold
