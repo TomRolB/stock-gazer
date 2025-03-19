@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.Gain300
 import com.example.stockgazer.ui.theme.Loss300
 import com.example.stockgazer.ui.theme.PrimaryDark
@@ -34,11 +35,12 @@ fun StockTile(
        modifier = Modifier
            .background(PrimaryDark)
            .padding(vertical = 16.dp),
-       horizontalArrangement = Arrangement.spacedBy(16.dp)
+       horizontalArrangement = Arrangement.spacedBy(ElementSpacing),
+       verticalAlignment = Alignment.CenterVertically
    ) {
        AsyncImage(
            model = "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/MSFT.png",
-           contentDescription = "$name's logo",
+           contentDescription = "$ticker's logo",
            modifier = Modifier
                .size(width = 42.dp, height = 42.dp)
                .clip(shape = CircleShape)
