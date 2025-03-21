@@ -66,4 +66,7 @@ dependencies {
 
     //
     implementation(libs.androidx.ui.graphics)
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
 }

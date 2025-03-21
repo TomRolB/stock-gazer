@@ -71,6 +71,7 @@ fun TabView(tabBarItems: List<TabBarItem>, onNavigate: (String) -> Unit) {
             NavigationBarItem(
                 selected = selectedTabIndex == index,
                 onClick = {
+                    println(tabBarItem.title)
                     selectedTabIndex = index
                     onNavigate(tabBarItem.title)
                 },

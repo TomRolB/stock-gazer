@@ -2,12 +2,22 @@ package com.example.stockgazer.ui.components.charts
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.graphics.toArgb
+import com.example.stockgazer.ui.theme.CandleThickness
+import com.example.stockgazer.ui.theme.Gain500
+import com.example.stockgazer.ui.theme.Loss500
+import com.example.stockgazer.ui.theme.PrimaryLight
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.layer.rememberCandlestickCartesianLayer
 import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianLayerRangeProvider
 import com.patrykandpatrick.vico.core.cartesian.data.candlestickSeries
+import com.patrykandpatrick.vico.core.cartesian.layer.CandlestickCartesianLayer
+import com.patrykandpatrick.vico.core.cartesian.layer.CandlestickCartesianLayer.*
+import com.patrykandpatrick.vico.core.cartesian.layer.absolute
+import com.patrykandpatrick.vico.core.common.Fill
+import com.patrykandpatrick.vico.core.common.component.LineComponent
 import com.patrykandpatrick.vico.core.common.data.ExtraStore
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -133,9 +143,25 @@ private val RangeProvider =
             Y_STEP * ceil(maxY / Y_STEP)
     }
 
+private val CandleProvider = CandlestickCartesianLayer.CandleProvider.absolute(
+    bullish = Candle(body = LineComponent(
+        fill = Fill(Gain500.toArgb()),
+        thicknessDp = CandleThickness
+    )),
+    neutral = Candle(body = LineComponent(
+        fill = Fill(PrimaryLight.toArgb()),
+        thicknessDp = CandleThickness
+    )),
+    bearish = Candle(body = LineComponent(
+        fill = Fill(Loss500.toArgb()),
+        thicknessDp = CandleThickness
+    ))
+)
+
 @Composable
 fun CandlestickChart() {
     val modelProducer = cartesianChartModelProducer()
+
     LaunchedEffect(Unit) {
         modelProducer.runTransaction {
             candlestickSeries(x, opening, closing, low, high)
@@ -144,7 +170,10 @@ fun CandlestickChart() {
 
     CartesianChartHost(
         rememberCartesianChart(
-            rememberCandlestickCartesianLayer(rangeProvider = RangeProvider),
+            rememberCandlestickCartesianLayer(
+                rangeProvider = RangeProvider,
+                candleProvider = CandleProvider
+            ),
         ),
         modelProducer = modelProducer,
     )
