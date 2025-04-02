@@ -17,7 +17,7 @@ import com.example.stockgazer.ui.screens.SearchScreen
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = StockGazerScreen.Chart.name,
+        startDestination = StockGazerScreen.Home.name,
         modifier = Modifier.fillMaxSize().padding(innerPadding).padding(20.dp)
     ) {
         composable(route = StockGazerScreen.Home.name) {

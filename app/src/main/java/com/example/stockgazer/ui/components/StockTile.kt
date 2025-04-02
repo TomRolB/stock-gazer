@@ -25,7 +25,6 @@ import com.example.stockgazer.ui.theme.PrimaryLight
 
 @Composable
 fun StockTile(
-    isGain: Boolean,
     ticker: String,
     name: String,
     currentPrice: Double,
@@ -67,7 +66,7 @@ fun StockTile(
            )
            Text(
                "%$variation",
-               color = if (isGain) Gain300 else Loss300,
+               color = if (variation < 0) Loss300 else Gain300,
                textAlign = TextAlign.Right,
                fontWeight = FontWeight.Bold
            )

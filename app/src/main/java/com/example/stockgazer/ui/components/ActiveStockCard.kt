@@ -8,18 +8,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
+import com.example.stockgazer.ui.components.images.Logo
 import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.Gain300
 import com.example.stockgazer.ui.theme.Loss300
@@ -29,10 +26,11 @@ import com.example.stockgazer.ui.theme.PrimaryLight
 @Composable
 fun ActiveStockCard(
     isGain: Boolean,
-    ticker: String,
+    symbol: String,
     variation: Double,
     trades: Long,
     volume: Long,
+    logoUrl: String? = null
 ) {
     Box(modifier = Modifier.border(
             width = 0.5.dp,
@@ -47,17 +45,13 @@ fun ActiveStockCard(
             horizontalArrangement = Arrangement.spacedBy(ElementSpacing),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // TODO: extract Logo component
-            AsyncImage(
-                model = "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/MSFT.png",
-                contentDescription = "$ticker's logo",
-                modifier = Modifier
-                    .size(width = 42.dp, height = 42.dp)
-                    .clip(shape = CircleShape)
+            Logo(
+                logoUrl = logoUrl ?: "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/MSFT.png",
+                symbol = symbol
             )
             Column {
                 Text(
-                    ticker,
+                    symbol,
                     color = PrimaryLight,
                     fontWeight = FontWeight.Bold,
                 )
