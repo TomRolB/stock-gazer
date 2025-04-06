@@ -13,7 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.stockgazer.ui.navigation.BottomBar
 import com.example.stockgazer.ui.navigation.NavHostComposable
 import com.example.stockgazer.ui.screens.HomeScreen
-import com.example.stockgazer.ui.theme.PrimaryDark
+import com.example.stockgazer.ui.theme.Primary900
 import com.example.stockgazer.ui.theme.StockGazerTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             StockGazerTheme {
                 Scaffold(
-                    containerColor = PrimaryDark,
+                    containerColor = Primary900,
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = { BottomBar(navController::navigate) },
                 ) { innerPadding ->

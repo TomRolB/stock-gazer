@@ -5,9 +5,7 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -23,8 +21,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.stockgazer.ui.theme.MontserratFontFamily
-import com.example.stockgazer.ui.theme.PrimaryDark
-import com.example.stockgazer.ui.theme.PrimaryLight
+import com.example.stockgazer.ui.theme.Primary900
+import com.example.stockgazer.ui.theme.Primary100
 
 
 @Composable
@@ -66,7 +64,7 @@ fun TabView(tabBarItems: List<TabBarItem>, onNavigate: (String) -> Unit) {
         mutableIntStateOf(0)
     }
 
-    NavigationBar(containerColor = PrimaryDark) {
+    NavigationBar(containerColor = Primary900) {
         tabBarItems.forEachIndexed { index, tabBarItem ->
             NavigationBarItem(
                 selected = selectedTabIndex == index,
@@ -86,13 +84,13 @@ fun TabView(tabBarItems: List<TabBarItem>, onNavigate: (String) -> Unit) {
                 },
                 label = { Text(tabBarItem.title, fontFamily = MontserratFontFamily) },
                 colors = NavigationBarItemColors(
-                    selectedIndicatorColor = PrimaryLight,
-                    selectedIconColor = PrimaryDark,
-                    unselectedIconColor = PrimaryLight,
-                    selectedTextColor = PrimaryLight,
-                    unselectedTextColor = PrimaryLight,
-                    disabledIconColor = PrimaryDark,
-                    disabledTextColor = PrimaryDark,
+                    selectedIndicatorColor = Primary100,
+                    selectedIconColor = Primary900,
+                    unselectedIconColor = Primary100,
+                    selectedTextColor = Primary100,
+                    unselectedTextColor = Primary100,
+                    disabledIconColor = Primary900,
+                    disabledTextColor = Primary900,
                 )
             )
         }

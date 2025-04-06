@@ -14,7 +14,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import com.example.stockgazer.ui.theme.Loss300
-import com.example.stockgazer.ui.theme.PrimaryLight
+import com.example.stockgazer.ui.theme.Primary100
+import com.example.stockgazer.ui.theme.Primary500
+import com.example.stockgazer.ui.theme.Primary700
 
 @Composable
 fun Logo(logoUrl: String, symbol: String) {
@@ -31,10 +33,10 @@ fun Logo(logoUrl: String, symbol: String) {
 
 @Composable
 fun DefaultLogo(symbol: String) {
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.background(color = Loss300)) {
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.background(color = Primary700)) {
         Text(
             symbol.first().uppercase(),
-            color = PrimaryLight,
+            color = Primary100,
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.headlineLarge
         )

@@ -2,6 +2,7 @@ package com.example.stockgazer.data.repository
 
 import com.example.stockgazer.data.response.TopMarketMoversResponse
 import com.example.stockgazer.domain.model.CompanyProfile
+import com.example.stockgazer.domain.model.FollowedStockData
 import com.example.stockgazer.domain.model.Stock
 import com.example.stockgazer.domain.model.StockMovement
 
@@ -33,6 +34,16 @@ class FakeStockRepository : StockRepository {
             StockMovement(symbol = "PLTR", tradeCount = 783974, volume = 95963728),
             StockMovement(symbol = "TSLL", tradeCount = 762791, volume = 364517390),
             StockMovement(symbol = "TQQQ", tradeCount = 743316, volume = 120669919)
+        )
+    }
+
+    override fun getFollowList(): List<FollowedStockData> {
+        return listOf(
+            FollowedStockData(change = 4.87, percentChange = 342.96, price = 6.29, symbol = "AAPL", name = "Apple Inc. Common Stock"),
+            FollowedStockData(change = 0.7572, percentChange = 153.65, price = 1.25, symbol = "MSFT", name = "Microsoft Corporation Common Stock"),
+            FollowedStockData(change = 0.0161, percentChange = 140.0, price = 0.0276, symbol = "LMT", name = "Lockheed Martin Corp."),
+            FollowedStockData(change = 0.945, percentChange = 97.93, price = 1.91, symbol = "GGAL", name = "Grupo Financiero Galicia S.A. American Depositary Shares"),
+            FollowedStockData(change = 0.0279, percentChange = 90.0, price = 0.0589, symbol = "MELI", name = "MercadoLibre, Inc. Common Stock")
         )
     }
 

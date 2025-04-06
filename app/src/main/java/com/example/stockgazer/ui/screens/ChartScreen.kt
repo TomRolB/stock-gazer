@@ -18,7 +18,7 @@ import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.charts.CandlestickChart
 import com.example.stockgazer.ui.components.text.Headline
 import com.example.stockgazer.ui.theme.Loss300
-import com.example.stockgazer.ui.theme.PrimaryLight
+import com.example.stockgazer.ui.theme.Primary100
 
 @Composable
 fun ChartScreen() {
@@ -33,14 +33,14 @@ fun ChartScreen() {
                     id = R.drawable.four_star_outlined
                 ),
                 contentDescription = "",
-                tint = PrimaryLight
+                tint = Primary100
             )
         }
-        Text("Microsoft Corporation Common Stock", color = PrimaryLight)
+        Text("Microsoft Corporation Common Stock", color = Primary100)
 
         Spacer(modifier = Modifier.height(16.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("239.07", color = PrimaryLight)
+            Text("239.07", color = Primary100)
             Text("-0.46%", fontWeight = FontWeight.Bold, color = Loss300)
         }
 
