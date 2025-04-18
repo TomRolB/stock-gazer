@@ -2,6 +2,7 @@ package com.example.stockgazer.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
@@ -19,7 +20,8 @@ fun ActiveStockCardSection() {
     LazyHorizontalGrid(
         horizontalArrangement = Arrangement.spacedBy(ElementSpacing),
         verticalArrangement = Arrangement.spacedBy(ElementSpacing),
-        rows = GridCells.Fixed(2)
+        rows = GridCells.Fixed(2),
+        modifier = Modifier.height(144.dp)
     ) {
         val mostActiveStockList = stockRepository.getMostActiveStock()
 

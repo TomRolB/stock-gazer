@@ -9,8 +9,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.stockgazer.ui.screens.ChartScreen
-import com.example.stockgazer.ui.screens.HomeScreen
+import com.example.stockgazer.ui.screens.chart.ChartScreen
+import com.example.stockgazer.ui.screens.home.HomeScreen
 import com.example.stockgazer.ui.screens.SearchScreen
 
 @Composable

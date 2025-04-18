@@ -60,7 +60,7 @@ fun StockTile(
                color = Primary100,
            )
            Text(
-               "%$variation",
+               "$variation%",
                color = if (variation < 0) Loss300 else Gain300,
                textAlign = TextAlign.Right,
                fontWeight = FontWeight.Bold

@@ -1,0 +1,4 @@
+<resources>
+    <string name="v1beta1_url">https://data.alpaca.markets/v1beta1/</string>
+    <string name="v2_url">https://data.alpaca.markets/v2/</string>
+</resources>

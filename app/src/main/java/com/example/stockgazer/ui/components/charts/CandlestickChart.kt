@@ -2,8 +2,11 @@ package com.example.stockgazer.ui.components.charts
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.example.stockgazer.data.repository.FakeBarRepository
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.stockgazer.ui.screens.chart.ChartViewModel
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberEnd
@@ -18,33 +21,37 @@ import com.patrykandpatrick.vico.core.cartesian.data.candlestickSeries
 @Composable
 fun CandlestickChart(modifier: Modifier = Modifier) {
     val modelProducer = cartesianChartModelProducer()
-    val barRepository = FakeBarRepository()
-    val bars = barRepository.getBarsForSymbol("MSFT")
+    val viewModel = hiltViewModel<ChartViewModel>()
+    val bars by viewModel.bars.collectAsState()
 
-    LaunchedEffect(Unit) {
-        modelProducer.runTransaction {
-            candlestickSeries(x, bars.opening, bars.closing, bars.low, bars.high)
+    // TODO: change. Too much indentation
+    if (!bars.isEmpty()) {
+
+        LaunchedEffect(Unit) {
+            modelProducer.runTransaction {
+                candlestickSeries(x, bars.opening, bars.closing, bars.low, bars.high)
+            }
         }
-    }
 
-    CartesianChartHost(
-        rememberCartesianChart(
-            rememberCandlestickCartesianLayer(
-                rangeProvider = RangeProvider,
-                candleProvider = CandleProvider
-            ),
-            endAxis = VerticalAxis.rememberEnd(
-                valueFormatter = StartAxisValueFormatter,
-                itemPlacer = SteppedAndLastItemPlacer(bars.closing),
-            ),
-            bottomAxis = HorizontalAxis.rememberBottom(
-                guideline = null, valueFormatter = BottomAxisValueFormatter
-            ),
+        CartesianChartHost(
+            rememberCartesianChart(
+                rememberCandlestickCartesianLayer(
+                    rangeProvider = RangeProvider,
+                    candleProvider = CandleProvider
+                ),
+                endAxis = VerticalAxis.rememberEnd(
+                    valueFormatter = StartAxisValueFormatter,
+                    itemPlacer = SteppedAndLastItemPlacer(bars.closing),
+                ),
+                bottomAxis = HorizontalAxis.rememberBottom(
+                    guideline = null, valueFormatter = BottomAxisValueFormatter
+                ),
 //            marker = rememberMarker(valueFormatter = MarkerValueFormatter, showIndicator = false),
-        ),
-        modelProducer = modelProducer,
-        modifier = modifier
-    )
+            ),
+            modelProducer = modelProducer,
+            modifier = modifier
+        )
+    }
 }
 
 @Composable

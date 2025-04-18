@@ -8,14 +8,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.images.Logo
 import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.Gain300
@@ -62,23 +66,51 @@ fun ActiveStockCard(
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    "%$variation",
+                    "$variation%",
                     color = if (isGain) Gain300 else Loss300,
                     textAlign = TextAlign.Right,
                     fontWeight = FontWeight.Bold
                 )
             }
-            Column(horizontalAlignment = Alignment.End) {
-                Text(
-                    "%,d".format(trades),
-                    textAlign = TextAlign.Right,
-                    color = Primary100,
-                )
-                Text(
-                    "%,d".format(volume),
-                    textAlign = TextAlign.Right,
-                    color = Primary100,
-                )
+            Column(horizontalAlignment = Alignment.Start) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(
+                            id = R.drawable.trades
+                        ),
+                        contentDescription = "",
+                        tint = Primary100,
+                        modifier = Modifier.size(size = 12.dp)
+                    )
+
+                    Text(
+                        "%,d".format(trades),
+                        textAlign = TextAlign.Left,
+                        color = Primary100,
+                    )
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(
+                            id = R.drawable.volume
+                        ),
+                        contentDescription = "",
+                        tint = Primary100,
+                        modifier = Modifier.size(size = 12.dp)
+                    )
+
+                    Text(
+                        "%,d".format(volume),
+                        textAlign = TextAlign.Left,
+                        color = Primary100,
+                    )
+                }
             }
         }
     }

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">StockGazer</string>
+    <string name="most_active_stock">Most Active Stock</string>
+    <string name="follow_list">Follow List</string>
+    <string name="top_market_movers">Top Market Movers</string>
 </resources>

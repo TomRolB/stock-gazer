@@ -1,7 +1,6 @@
 package com.example.stockgazer.ui.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
@@ -20,9 +19,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
+import com.example.stockgazer.R
 import com.example.stockgazer.ui.theme.MontserratFontFamily
-import com.example.stockgazer.ui.theme.Primary900
 import com.example.stockgazer.ui.theme.Primary100
+import com.example.stockgazer.ui.theme.Primary900
 
 
 @Composable
@@ -33,7 +34,6 @@ fun BottomBar(
         title = StockGazerScreen.Home.name,
         selectedIcon = Icons.Filled.Home,
         unselectedIcon = Icons.Outlined.Home,
-
     )
     val rankingTab = TabBarItem(
         title = StockGazerScreen.Search.name,
@@ -42,7 +42,7 @@ fun BottomBar(
     )
     val profileTab = TabBarItem(
         title = StockGazerScreen.Chart.name,
-        selectedIcon = Icons.AutoMirrored.Filled.List,
+        selectedIcon = ImageVector.vectorResource(R.drawable.chart),
         unselectedIcon = Icons.AutoMirrored.Outlined.List
     )
 
