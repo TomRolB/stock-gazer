@@ -46,7 +46,7 @@ fun YourTradesSection() {
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.add),
-                contentDescription = "",
+                contentDescription = stringResource(R.string.add_icon_content_description),
                 tint = Primary100,
                 modifier = Modifier.rotate(rotationAngle)
             )

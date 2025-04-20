@@ -1,56 +1,147 @@
 package com.example.stockgazer.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.stockgazer.R
+import com.example.stockgazer.ui.components.icons.StockAmountIcon
 import com.example.stockgazer.ui.components.input.DateField
 import com.example.stockgazer.ui.components.input.TimeField
+import com.example.stockgazer.ui.screens.chart.ChartViewModel
+import com.example.stockgazer.ui.screens.chart.Trade
+import com.example.stockgazer.ui.screens.chart.TradeType.*
 import com.example.stockgazer.ui.theme.CardBorderRadius
+import com.example.stockgazer.ui.theme.ElementSpacing
+import com.example.stockgazer.ui.theme.Gain300
+import com.example.stockgazer.ui.theme.HeadlineToIconSpacing
+import com.example.stockgazer.ui.theme.IconBig
 import com.example.stockgazer.ui.theme.InputSpacing
+import com.example.stockgazer.ui.theme.Loss300
 import com.example.stockgazer.ui.theme.PaddingMedium
+import com.example.stockgazer.ui.theme.Primary100
+import com.example.stockgazer.ui.theme.Primary200
 import com.example.stockgazer.ui.theme.Primary800
-import java.time.LocalDate
-import java.time.LocalTime
+import com.example.stockgazer.ui.theme.Primary900
+import kotlin.math.absoluteValue
 
 @Composable
 fun TradeCreationCard() {
+    val viewModel = hiltViewModel<ChartViewModel>()
+    val currentTrade by viewModel.currentTrade.collectAsState()
+
     Card(
         colors = CardDefaults.cardColors(containerColor = Primary800),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(375.dp),
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(CardBorderRadius),
     ) {
         Box(
             modifier = Modifier.padding(PaddingMedium)
         ) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(InputSpacing)
+                verticalArrangement = Arrangement.spacedBy(ElementSpacing)
             ) {
-                DateField(
-                    label = stringResource(R.string.trade_date_field_label),
-                    initialDate = LocalDate.now(),
-                    onDateSelected = {},
-                    modifier = Modifier.fillMaxWidth()
-                )
-                TimeField(
-                    label = stringResource(R.string.trade_time_field_label),
-                    initialTime = LocalTime.now(),
-                    onTimeSelected = {},
-                    modifier = Modifier.fillMaxWidth()
-                )
+                TradeType(viewModel)
+                TradeCreationFields(currentTrade)
+                TradeCreationButtons()
             }
+        }
+    }
+}
+
+@Composable
+private fun TradeCreationFields(currentTrade: Trade) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(InputSpacing)
+    ) {
+
+        OutlinedTextField(label = { Text("Amount Traded") },
+            value = TextFieldValue(currentTrade.amount.absoluteValue.toString()),
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+            onValueChange = {})
+
+        DateField(
+            label = stringResource(R.string.trade_date_field_label),
+            initialDate = currentTrade.date,
+            onDateSelected = {},
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        TimeField(
+            label = stringResource(R.string.trade_time_field_label),
+            initialTime = currentTrade.time,
+            onTimeSelected = {},
+            modifier = Modifier.fillMaxWidth()
+        )
+
+    }
+}
+
+@Composable
+private fun TradeType(viewModel: ChartViewModel) {
+    val currentTrade by viewModel.currentTrade.collectAsState()
+
+
+    Row(horizontalArrangement = Arrangement.spacedBy(HeadlineToIconSpacing),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.clickable {
+            viewModel.toggleTradeType()
+        }) {
+        StockAmountIcon(
+            currentTrade.type, size = IconBig
+        )
+
+        if (currentTrade.type == Buy) {
+            Text(
+                stringResource(R.string.buy),
+                color = Gain300,
+                style = MaterialTheme.typography.headlineLarge
+            )
+        } else {
+            Text(
+                stringResource(R.string.sell),
+                color = Loss300,
+                style = MaterialTheme.typography.headlineLarge
+            )
+        }
+
+    }
+}
+
+@Composable
+private fun TradeCreationButtons() {
+    Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+        Button(
+            onClick = {}, colors = ButtonColors(
+                containerColor = Primary100,
+                contentColor = Primary900,
+                disabledContainerColor = Primary200,
+                disabledContentColor = Primary800
+            )
+        ) {
+            Text("Submit")
         }
     }
 }

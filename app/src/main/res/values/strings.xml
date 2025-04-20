@@ -12,4 +12,12 @@
     <string name="time_picker_button_select_picker_mode">Time picker button select picker mode</string>
     <string name="trade_date_field_label">Trade Date</string>
     <string name="trade_time_field_label">Trade Time</string>
+    <string name="green_arrow_pointing_upwards">Green arrow pointing upwards</string>
+    <string name="red_arrow_pointing_downwards">Red arrow pointing downwards</string>
+    <string name="four_star_icon_content_description">A four-edged star</string>
+    <string name="trade_icon_content_description">An arrow pointing to the right with another arrow below it, which points to the left</string>
+    <string name="volume_icon_content_description">Increasing trend shown with three rising bars</string>
+    <string name="add_icon_content_description">A circle with a plus sign inside it</string>
+    <string name="buy">Buy</string>
+    <string name="sell">Sell</string>
 </resources>

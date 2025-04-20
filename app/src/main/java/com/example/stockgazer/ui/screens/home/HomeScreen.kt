@@ -26,6 +26,7 @@ import com.example.stockgazer.ui.components.ActiveStockCardSection
 import com.example.stockgazer.ui.components.StockTile
 import com.example.stockgazer.ui.components.text.Headline
 import com.example.stockgazer.ui.theme.ElementSpacing
+import com.example.stockgazer.ui.theme.HeadlineToIconSpacing
 import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.SectionSpacing
 
@@ -43,10 +44,10 @@ fun HomeScreen() {
         item {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Headline(stringResource(R.string.follow_list_title))
-                Spacer(modifier = Modifier.size(8.dp))
+                Spacer(modifier = Modifier.size(HeadlineToIconSpacing))
                 Icon(
                     painter = painterResource(id = R.drawable.four_star_filled),
-                    contentDescription = "",
+                    contentDescription = stringResource(R.string.four_star_icon_content_description),
                     tint = Primary100
                 )
             }

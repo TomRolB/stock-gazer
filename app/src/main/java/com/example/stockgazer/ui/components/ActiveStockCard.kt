@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -83,7 +84,7 @@ fun ActiveStockCard(
                         painter = painterResource(
                             id = R.drawable.trades
                         ),
-                        contentDescription = "",
+                        contentDescription = stringResource(R.string.trade_icon_content_description),
                         tint = Primary100,
                         modifier = Modifier.size(IconSmall)
                     )
@@ -102,7 +103,7 @@ fun ActiveStockCard(
                         painter = painterResource(
                             id = R.drawable.volume
                         ),
-                        contentDescription = "",
+                        contentDescription = stringResource(R.string.volume_icon_content_description),
                         tint = Primary100,
                         modifier = Modifier.size(size = IconSmall)
                     )

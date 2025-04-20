@@ -7,6 +7,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,6 +23,13 @@ class ChartViewModel @Inject constructor(
 
     private var _bars = MutableStateFlow(BarPeriod())
     val bars = _bars.asStateFlow()
+
+    private var _currentTrade = MutableStateFlow(Trade())
+    val currentTrade = _currentTrade.asStateFlow()
+
+    private var _trades = MutableStateFlow(emptyList<Trade>())
+    val trades = _trades.asStateFlow()
+
 
     init {
         loadBars()
@@ -53,6 +62,45 @@ class ChartViewModel @Inject constructor(
     fun toggleAddingTrade() {
         viewModelScope.launch {
             _isAddingTrade.emit(!_isAddingTrade.value)
+        }
+    }
+
+    fun toggleTradeType() {
+        viewModelScope.launch {
+            _currentTrade.emit(
+                _currentTrade.value.copy(type = !_currentTrade.value.type)
+            )
+        }
+    }
+
+    fun updateTradeAmount(amount: Int) {
+        viewModelScope.launch {
+            _currentTrade.emit(
+                _currentTrade.value.copy(amount = amount)
+            )
+        }
+    }
+
+    fun updateTradeDate(date: LocalDate) {
+        viewModelScope.launch {
+            _currentTrade.emit(
+                _currentTrade.value.copy(date = date)
+            )
+        }
+    }
+
+    fun updateTradeTime(time: LocalTime) {
+        viewModelScope.launch {
+            _currentTrade.emit(
+                _currentTrade.value.copy(time = time)
+            )
+        }
+    }
+
+    fun submitTrade() {
+        viewModelScope.launch {
+            _trades.emit(_trades.value + _currentTrade.value)
+            _currentTrade.emit(Trade())
         }
     }
 }
