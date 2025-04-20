@@ -7,13 +7,16 @@ data class TopMarketMoversResponse(
     val losers: List<Stock> = listOf(),
 )
 
-data class BarsResponse(
-    val opening: List<Double> = listOf(),
-    val closing: List<Double> = listOf(),
-    val low: List<Double> = listOf(),
-    val high: List<Double> = listOf(),
-) {
-    fun isEmpty(): Boolean {
-        return listOf(opening, closing, low, high).any { it.isEmpty() }
-    }
-}
+//TODO: won't work because data is returned in other format.
+data class BarsResponse(val bars: List<Bar>)
+
+data class Bar (
+    val o: Double,  // open
+    val c: Double,  // close
+    val h: Double,  // high
+    val l: Double,  // low
+    val n: Int,     // number of trades
+    val t: String,  // timestamp
+    val v: Int,     // volume
+    val vw: Double  // volume-weighted average
+)

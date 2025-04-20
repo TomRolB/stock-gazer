@@ -12,12 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import com.example.stockgazer.data.repository.FakeStockRepository
 import com.example.stockgazer.ui.components.images.Logo
 import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.Gain300
 import com.example.stockgazer.ui.theme.Loss300
+import com.example.stockgazer.ui.theme.PaddingMedium
 import com.example.stockgazer.ui.theme.Primary900
 import com.example.stockgazer.ui.theme.Primary100
 
@@ -33,7 +33,7 @@ fun StockTile(
     Row(
        modifier = Modifier
            .background(Primary900)
-           .padding(vertical = 16.dp),
+           .padding(vertical = PaddingMedium),
        horizontalArrangement = Arrangement.spacedBy(ElementSpacing),
        verticalAlignment = Alignment.CenterVertically
    ) {

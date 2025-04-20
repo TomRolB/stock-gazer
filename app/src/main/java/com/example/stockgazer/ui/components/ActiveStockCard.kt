@@ -23,7 +23,9 @@ import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.images.Logo
 import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.Gain300
+import com.example.stockgazer.ui.theme.IconSmall
 import com.example.stockgazer.ui.theme.Loss300
+import com.example.stockgazer.ui.theme.PaddingSmall
 import com.example.stockgazer.ui.theme.Primary900
 import com.example.stockgazer.ui.theme.Primary100
 
@@ -51,7 +53,7 @@ fun ActiveStockCard(
         Row(
             modifier = Modifier
                 .background(Primary900)
-                .padding(all = 8.dp),
+                .padding(all = PaddingSmall),
             horizontalArrangement = Arrangement.spacedBy(ElementSpacing),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -83,7 +85,7 @@ fun ActiveStockCard(
                         ),
                         contentDescription = "",
                         tint = Primary100,
-                        modifier = Modifier.size(size = 12.dp)
+                        modifier = Modifier.size(IconSmall)
                     )
 
                     Text(
@@ -102,7 +104,7 @@ fun ActiveStockCard(
                         ),
                         contentDescription = "",
                         tint = Primary100,
-                        modifier = Modifier.size(size = 12.dp)
+                        modifier = Modifier.size(size = IconSmall)
                     )
 
                     Text(

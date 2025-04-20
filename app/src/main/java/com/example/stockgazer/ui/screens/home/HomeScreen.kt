@@ -1,17 +1,13 @@
 package com.example.stockgazer.ui.screens.home
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -31,6 +27,7 @@ import com.example.stockgazer.ui.components.StockTile
 import com.example.stockgazer.ui.components.text.Headline
 import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.Primary100
+import com.example.stockgazer.ui.theme.SectionSpacing
 
 @Composable
 fun HomeScreen() {
@@ -45,7 +42,7 @@ fun HomeScreen() {
     ) {
         item {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Headline(stringResource(R.string.follow_list))
+                Headline(stringResource(R.string.follow_list_title))
                 Spacer(modifier = Modifier.size(8.dp))
                 Icon(
                     painter = painterResource(id = R.drawable.four_star_filled),
@@ -65,7 +62,7 @@ fun HomeScreen() {
         }
 
         item {
-            Headline(stringResource(R.string.most_active_stock))
+            Headline(stringResource(R.string.most_active_stock_title))
         }
 
         item {
@@ -73,11 +70,11 @@ fun HomeScreen() {
         }
 
         item {
-            Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(SectionSpacing))
         }
 
         item {
-            Headline(stringResource(R.string.top_market_movers))
+            Headline(stringResource(R.string.top_market_movers_title))
         }
 
         items(items = topMarketMovers.gainers) { gainer ->
@@ -104,7 +101,7 @@ private fun FollowListSection(stockRepository: FakeStockRepository) {
                 price = stock.price,
                 variation = stock.change,
             )
-            if (count < followList.size) HorizontalDivider(
+            if (count < followList.size) HorizontalDivider( // TODO should be placed better
                 color = Primary100.copy(alpha = 0.5f),
                 modifier = Modifier.padding(horizontal = 64.dp)
             )

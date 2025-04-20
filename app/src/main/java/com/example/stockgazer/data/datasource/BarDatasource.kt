@@ -8,7 +8,7 @@ import retrofit.http.Path
 import retrofit.http.Query
 
 interface BarDatasource {
-    @GET("v2/stocks/{symbol}/bars")
+    @GET("stocks/{symbol}/bars")
     fun getBarsForSymbol(
         @Header("APCA-API-KEY-ID") alpacaApiKeyId: String,
         @Header("APCA-API-SECRET-KEY") alpacaApiSecretKey: String,

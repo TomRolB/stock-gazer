@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">StockGazer</string>
-    <string name="most_active_stock">Most Active Stock</string>
-    <string name="follow_list">Follow List</string>
-    <string name="top_market_movers">Top Market Movers</string>
+    <string name="time_zone">America/Argentina/Buenos_Aires</string>
+    <string name="most_active_stock_title">Most Active Stock</string>
+    <string name="follow_list_title">Follow List</string>
+    <string name="top_market_movers_title">Top Market Movers</string>
+    <string name="your_trades_title">Your trades</string>
 </resources>

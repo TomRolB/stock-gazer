@@ -5,7 +5,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.stockgazer.R
 import com.example.stockgazer.ui.screens.chart.ChartViewModel
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
@@ -29,7 +31,7 @@ fun CandlestickChart(modifier: Modifier = Modifier) {
 
         LaunchedEffect(Unit) {
             modelProducer.runTransaction {
-                candlestickSeries(x, bars.opening, bars.closing, bars.low, bars.high)
+                candlestickSeries((0..<bars.opening.size).toList(), bars.opening, bars.closing, bars.low, bars.high)
             }
         }
 
@@ -44,9 +46,12 @@ fun CandlestickChart(modifier: Modifier = Modifier) {
                     itemPlacer = SteppedAndLastItemPlacer(bars.closing),
                 ),
                 bottomAxis = HorizontalAxis.rememberBottom(
-                    guideline = null, valueFormatter = BottomAxisValueFormatter
+                    guideline = null,
+                    valueFormatter = BottomAxisValueFormatter(
+                        bars.timestamps,
+                        stringResource(R.string.time_zone)
+                    )
                 ),
-//            marker = rememberMarker(valueFormatter = MarkerValueFormatter, showIndicator = false),
             ),
             modelProducer = modelProducer,
             modifier = modifier

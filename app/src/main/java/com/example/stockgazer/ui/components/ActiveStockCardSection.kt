@@ -13,6 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.example.stockgazer.data.repository.FakeStockRepository
 import com.example.stockgazer.ui.theme.ElementSpacing
 
+// TODO: move to screens/home? That would mean each screen would have its own components directory
+
 @Composable
 fun ActiveStockCardSection() {
     val stockRepository = FakeStockRepository()

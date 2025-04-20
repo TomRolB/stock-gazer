@@ -42,7 +42,7 @@ fun BottomBar(
     )
     val profileTab = TabBarItem(
         title = StockGazerScreen.Chart.name,
-        selectedIcon = ImageVector.vectorResource(R.drawable.chart),
+        selectedIcon = ImageVector.vectorResource(R.drawable.chart), // TODO: fix icon
         unselectedIcon = Icons.AutoMirrored.Outlined.List
     )
 

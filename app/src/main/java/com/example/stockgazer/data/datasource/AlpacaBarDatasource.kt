@@ -31,8 +31,8 @@ class AlpacaBarDatasource @Inject constructor(
     private val alpacaApiKeyId: String = context.getString(R.string.APCA_API_KEY_ID)
     private val alpacaApiSecretKey: String = context.getString(R.string.APCA_API_SECRET_KEY)
 
-    private val isoNow    = Instant.now().toString()
     private val iso5DaysAgo = Instant.now().minus(5, ChronoUnit.DAYS).toString()
+    private val isoYesterday = Instant.now().minus(1, ChronoUnit.DAYS).toString()
 
 
     fun getBarsFromSymbol(
@@ -45,8 +45,8 @@ class AlpacaBarDatasource @Inject constructor(
             alpacaApiKeyId,
             alpacaApiSecretKey,
             symbol = "AAPL",
-            start = iso5DaysAgo,
-            end = isoNow
+            start = iso5DaysAgo, // TODO: check why it fails when setting it to 2 days ago
+            end = isoYesterday
         )
 
         call.enqueue(object : Callback<BarsResponse> {
@@ -61,7 +61,7 @@ class AlpacaBarDatasource @Inject constructor(
             }
 
             override fun onFailure(t: Throwable?) {
-                TODO("Not yet implemented")
+                println("Could not fetch bars. Exception was $t")
             }
         })
     }
