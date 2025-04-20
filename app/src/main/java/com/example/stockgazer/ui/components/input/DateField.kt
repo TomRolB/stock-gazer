@@ -22,31 +22,30 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun DateField(modifier: Modifier = Modifier) {
-    val selectedDate = LocalDate.now()
-    var showPicker by remember { mutableStateOf(false) }
-    // 1️⃣ Launch dialog when true
+fun DateField(
+    label: String,
+    onDateSelected: (LocalDate) -> Unit,
+    modifier: Modifier = Modifier,
+    initialDate: LocalDate
+) {
+    var showPicker by remember { mutableStateOf(false) } // TODO: OK to use remember?
     if (showPicker) {
-        DatePickerDialog(
-            onDismissRequest = { showPicker = false },
-            confirmButton = {
-                TextButton(onClick = {
-                    showPicker = false
-                    // pull date from state below
-                }) { Text("OK") }
-            }
-        ) {
+        DatePickerDialog(onDismissRequest = { showPicker = false }, confirmButton = {
+            TextButton(onClick = {
+                showPicker = false
+                // pull date from state below
+            }) { Text("OK") }
+        }) {
             DatePicker(
-                state = rememberDatePickerState(selectedDate?.toEpochDay() ?: 0),
+                state = rememberDatePickerState(initialDate.toEpochDay()),
             )
         }
     }
 
-    // 2️⃣ The input field
     OutlinedTextField(
-        value = selectedDate?.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")) ?: "",
+        value = initialDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")) ?: "",
         onValueChange = { /* no-op for readOnly */ },
-        label = { Text("Trade Date") },
+        label = { Text(label) },
         readOnly = true,
         trailingIcon = {
             IconButton(onClick = { showPicker = true }) {

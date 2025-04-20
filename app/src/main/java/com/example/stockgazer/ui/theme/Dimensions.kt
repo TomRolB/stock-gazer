@@ -4,6 +4,8 @@ import androidx.compose.ui.unit.dp
 
 val ElementSpacing = 16.dp
 val SectionSpacing = 16.dp
+val InputSpacing = 8.dp
+
 
 val PaddingSmall = 8.dp
 val PaddingMedium = 16.dp

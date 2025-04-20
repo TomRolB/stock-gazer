@@ -5,4 +5,11 @@
     <string name="follow_list_title">Follow List</string>
     <string name="top_market_movers_title">Top Market Movers</string>
     <string name="your_trades_title">Your trades</string>
+    <string name="time_picker_title">Select time\n</string>
+    <string name="common_button_cancel">Cancel</string>
+    <string name="common_button_ok">Ok\n</string>
+    <string name="time_picker_button_select_input_mode">Time picker button select input mode</string>
+    <string name="time_picker_button_select_picker_mode">Time picker button select picker mode</string>
+    <string name="trade_date_field_label">Trade Date</string>
+    <string name="trade_time_field_label">Trade Time</string>
 </resources>

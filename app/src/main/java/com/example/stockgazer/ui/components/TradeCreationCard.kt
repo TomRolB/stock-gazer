@@ -1,5 +1,6 @@
 package com.example.stockgazer.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,11 +11,17 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.input.DateField
+import com.example.stockgazer.ui.components.input.TimeField
 import com.example.stockgazer.ui.theme.CardBorderRadius
+import com.example.stockgazer.ui.theme.InputSpacing
 import com.example.stockgazer.ui.theme.PaddingMedium
 import com.example.stockgazer.ui.theme.Primary800
+import java.time.LocalDate
+import java.time.LocalTime
 
 @Composable
 fun TradeCreationCard() {
@@ -28,8 +35,21 @@ fun TradeCreationCard() {
         Box(
             modifier = Modifier.padding(PaddingMedium)
         ) {
-            Column {
-                DateField(modifier = Modifier.fillMaxWidth())
+            Column(
+                verticalArrangement = Arrangement.spacedBy(InputSpacing)
+            ) {
+                DateField(
+                    label = stringResource(R.string.trade_date_field_label),
+                    initialDate = LocalDate.now(),
+                    onDateSelected = {},
+                    modifier = Modifier.fillMaxWidth()
+                )
+                TimeField(
+                    label = stringResource(R.string.trade_time_field_label),
+                    initialTime = LocalTime.now(),
+                    onTimeSelected = {},
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     }
