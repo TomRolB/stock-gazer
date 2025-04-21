@@ -18,6 +18,7 @@ import com.patrykandpatrick.vico.core.cartesian.axis.HorizontalAxis
 import com.patrykandpatrick.vico.core.cartesian.axis.VerticalAxis
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 import com.patrykandpatrick.vico.core.cartesian.data.candlestickSeries
+import javax.inject.Inject
 
 
 @Composable
@@ -49,7 +50,7 @@ fun CandlestickChart(modifier: Modifier = Modifier) {
                     guideline = null,
                     valueFormatter = BottomAxisValueFormatter(
                         bars.timestamps,
-                        stringResource(R.string.time_zone)
+                        viewModel.zoneIdProvider.getTimeZone()
                     )
                 ),
             ),

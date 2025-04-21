@@ -20,4 +20,8 @@
     <string name="add_icon_content_description">A circle with a plus sign inside it</string>
     <string name="buy">Buy</string>
     <string name="sell">Sell</string>
+    <string name="amount_traded_field_label">Amount Traded</string>
+    <string name="date_picker_title">Select date</string>
+    <string name="date_picker_confirm_button_text">OK</string>
+    <string name="trade_submit_button_text">Submit</string>
 </resources>

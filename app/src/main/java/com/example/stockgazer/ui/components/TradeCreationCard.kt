@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.icons.StockAmountIcon
@@ -31,7 +30,7 @@ import com.example.stockgazer.ui.components.input.DateField
 import com.example.stockgazer.ui.components.input.TimeField
 import com.example.stockgazer.ui.screens.chart.ChartViewModel
 import com.example.stockgazer.ui.screens.chart.Trade
-import com.example.stockgazer.ui.screens.chart.TradeType.*
+import com.example.stockgazer.ui.screens.chart.TradeType.Buy
 import com.example.stockgazer.ui.theme.CardBorderRadius
 import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.Gain300
@@ -63,36 +62,39 @@ fun TradeCreationCard() {
                 verticalArrangement = Arrangement.spacedBy(ElementSpacing)
             ) {
                 TradeType(viewModel)
-                TradeCreationFields(currentTrade)
-                TradeCreationButtons()
+                TradeCreationFields(currentTrade, viewModel)
+                TradeCreationButtons(viewModel)
             }
         }
     }
 }
 
 @Composable
-private fun TradeCreationFields(currentTrade: Trade) {
+private fun TradeCreationFields(currentTrade: Trade, viewModel: ChartViewModel) {
     Column(
         verticalArrangement = Arrangement.spacedBy(InputSpacing)
     ) {
-
-        OutlinedTextField(label = { Text("Amount Traded") },
-            value = TextFieldValue(currentTrade.amount.absoluteValue.toString()),
+        OutlinedTextField(label = { Text(stringResource(R.string.amount_traded_field_label)) },
+            value = currentTrade.amount.absoluteValue.toString(),
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-            onValueChange = {})
+            onValueChange  = {
+                val input = it.toIntOrNull()
+                if (input != null) viewModel.updateTradeAmount(input)
+            })
 
         DateField(
             label = stringResource(R.string.trade_date_field_label),
             initialDate = currentTrade.date,
-            onDateSelected = {},
-            modifier = Modifier.fillMaxWidth()
+            onDateSelected = { viewModel.updateTradeDate(it) },
+            modifier = Modifier.fillMaxWidth(),
+            timezone = viewModel.zoneIdProvider.getTimeZone()
         )
 
         TimeField(
             label = stringResource(R.string.trade_time_field_label),
             initialTime = currentTrade.time,
-            onTimeSelected = {},
+            onTimeSelected = { viewModel.updateTradeTime(it) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -131,17 +133,17 @@ private fun TradeType(viewModel: ChartViewModel) {
 }
 
 @Composable
-private fun TradeCreationButtons() {
+private fun TradeCreationButtons(viewModel: ChartViewModel) {
     Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
         Button(
-            onClick = {}, colors = ButtonColors(
+            onClick = { viewModel.submitTrade() }, colors = ButtonColors(
                 containerColor = Primary100,
                 contentColor = Primary900,
                 disabledContainerColor = Primary200,
                 disabledContentColor = Primary800
             )
         ) {
-            Text("Submit")
+            Text(stringResource(R.string.trade_submit_button_text))
         }
     }
 }

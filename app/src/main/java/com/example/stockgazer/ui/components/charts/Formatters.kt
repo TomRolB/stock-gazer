@@ -16,13 +16,12 @@ val StartAxisValueFormatter = CartesianValueFormatter.decimal(DecimalFormat("$#,
 
 class BottomAxisValueFormatter(
     private val timestamps: List<Instant>,
-    private val timeZone: String
+    private val timeZone: ZoneId
 ) : CartesianValueFormatter {
 
-    // “3 PM” style for intra‑day labels
     private val hourFormatter = DateTimeFormatter
         .ofPattern("h a", Locale.US)
-        .withZone(ZoneId.of(timeZone))
+        .withZone(timeZone)
 
     override fun format(
         context: CartesianMeasuringContext,
@@ -31,7 +30,7 @@ class BottomAxisValueFormatter(
     ): CharSequence {
         val idx = value.toInt().coerceIn(timestamps.indices)
         val instant = timestamps[idx]
-        val zdt = instant.atZone(ZoneId.of(timeZone))
+        val zdt = instant.atZone(timeZone)
         val today = zdt.dayOfWeek
 
         val showDayLabel = isFirstLabelOrDayChange(idx, today)
@@ -46,7 +45,7 @@ class BottomAxisValueFormatter(
 
     private fun isFirstLabelOrDayChange(idx: Int, today: DayOfWeek?) = idx == 0 || run {
         val prevInstant = timestamps[idx - 1]
-        val prevDay = prevInstant.atZone(ZoneId.of(timeZone)).dayOfWeek
+        val prevDay = prevInstant.atZone(timeZone).dayOfWeek
         today != prevDay
     }
 }

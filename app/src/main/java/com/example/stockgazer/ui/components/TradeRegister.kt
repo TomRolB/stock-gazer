@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.stockgazer.ui.components.icons.StockAmountIcon
-import com.example.stockgazer.ui.screens.chart.TradeType.*
+import com.example.stockgazer.ui.screens.chart.TradeType
 import com.example.stockgazer.ui.theme.Gain300
 import com.example.stockgazer.ui.theme.IconSmall
 import com.example.stockgazer.ui.theme.Loss300
@@ -20,6 +20,7 @@ import com.example.stockgazer.ui.theme.Primary100
 
 @Composable
 fun TradeRegister(
+    type: TradeType,
     amount: Int,
     date: String,
     time: String,
@@ -30,14 +31,14 @@ fun TradeRegister(
         modifier = Modifier.padding(horizontal = PaddingMedium, vertical = PaddingSmall),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        StockCount(amount)
+        StockCount(amount, type)
         TradeDateTime(date, time)
-        PriceAndVariation(price, variation)
+        PriceAndVariation(price, variation, type)
     }
 }
 
 @Composable
-private fun PriceAndVariation(price: Double, variation: Double) {
+private fun PriceAndVariation(price: Double, variation: Double, tradeType: TradeType) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -46,7 +47,7 @@ private fun PriceAndVariation(price: Double, variation: Double) {
         Text(
             "$variation%",
             fontWeight = FontWeight.Bold,
-            color = if (variation < 0) Loss300 else Gain300
+            color = if (tradeType == TradeType.Buy) Gain300 else Loss300
         )
     }
 }
@@ -63,19 +64,19 @@ private fun TradeDateTime(date: String, time: String) {
 }
 
 @Composable
-private fun StockCount(amount: Int) {
+private fun StockCount(amount: Int, tradeType: TradeType) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         StockAmountIcon(
-            if (amount > 0) Buy else Sell,
+            type = tradeType,
             size = IconSmall
         )
         Text(
             amount.toString(),
             color = if (amount < 0) Loss300 else Gain300,
             fontWeight = FontWeight.Bold
-        );
+        )
     }
 }

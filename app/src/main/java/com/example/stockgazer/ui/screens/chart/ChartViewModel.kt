@@ -3,6 +3,7 @@ package com.example.stockgazer.ui.screens.chart
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.stockgazer.data.datasource.AlpacaBarDatasource
+import com.example.stockgazer.util.ResourceZoneIdProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,18 +14,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChartViewModel @Inject constructor(
-    private val alpacaBarDatasource: AlpacaBarDatasource
+    private val alpacaBarDatasource: AlpacaBarDatasource, val zoneIdProvider: ResourceZoneIdProvider
 ) : ViewModel() {
     private var _isFavorite = MutableStateFlow(false)
     val isFavorite = _isFavorite.asStateFlow()
 
-    private var _isAddingTrade = MutableStateFlow(false)
-    val isAddingTrade = _isAddingTrade.asStateFlow()
+    private var _showTradeCreationModal = MutableStateFlow(false)
+    val showTradeCreationModal = _showTradeCreationModal.asStateFlow()
 
     private var _bars = MutableStateFlow(BarPeriod())
     val bars = _bars.asStateFlow()
 
-    private var _currentTrade = MutableStateFlow(Trade())
+    private val defaultTrade = Trade(
+        date = LocalDate.now(zoneIdProvider.getTimeZone()),
+        time = LocalTime.now(zoneIdProvider.getTimeZone()),
+    )
+    private var _currentTrade = MutableStateFlow(
+        defaultTrade
+    )
     val currentTrade = _currentTrade.asStateFlow()
 
     private var _trades = MutableStateFlow(emptyList<Trade>())
@@ -36,21 +43,16 @@ class ChartViewModel @Inject constructor(
     }
 
     private fun loadBars() {
-        alpacaBarDatasource.getBarsFromSymbol(
-            "AAPL",
-            onSuccess = {
-                viewModelScope.launch {
-                    _bars.emit(BarPeriod.fromBarResponse(it))
-                }
-            },
-            onFail = {
-                // TODO: skeleton? Fail image?
-
-            },
-            loadingFinished = {
-                // TODO: ???
+        alpacaBarDatasource.getBarsFromSymbol("AAPL", onSuccess = {
+            viewModelScope.launch {
+                _bars.emit(BarPeriod.fromBarResponse(it))
             }
-        )
+        }, onFail = {
+            // TODO: skeleton? Fail image?
+
+        }, loadingFinished = {
+            // TODO: ???
+        })
     }
 
     fun toggleFavorite() {
@@ -61,7 +63,7 @@ class ChartViewModel @Inject constructor(
 
     fun toggleAddingTrade() {
         viewModelScope.launch {
-            _isAddingTrade.emit(!_isAddingTrade.value)
+            _showTradeCreationModal.emit(!_showTradeCreationModal.value)
         }
     }
 
@@ -100,7 +102,8 @@ class ChartViewModel @Inject constructor(
     fun submitTrade() {
         viewModelScope.launch {
             _trades.emit(_trades.value + _currentTrade.value)
-            _currentTrade.emit(Trade())
+            _currentTrade.emit(defaultTrade)
+            _showTradeCreationModal.emit(false)
         }
     }
 }

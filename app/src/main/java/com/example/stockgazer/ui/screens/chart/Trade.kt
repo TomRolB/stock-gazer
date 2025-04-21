@@ -6,7 +6,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 data class Trade(
-    val type: TradeType = TradeType.Buy,
+    val type: TradeType = Buy,
     val amount: Int = 1,
     val date: LocalDate = LocalDate.now(),
     val time: LocalTime = LocalTime.now(),

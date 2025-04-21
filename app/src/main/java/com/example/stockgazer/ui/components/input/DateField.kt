@@ -17,7 +17,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.stockgazer.R
+import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -26,30 +30,46 @@ fun DateField(
     label: String,
     onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
-    initialDate: LocalDate
+    initialDate: LocalDate,
+    timezone: ZoneId
 ) {
     var showPicker by remember { mutableStateOf(false) } // TODO: OK to use remember?
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = initialDate
+            .atStartOfDay(timezone)
+            .toInstant()
+            .toEpochMilli()
+    )
+
     if (showPicker) {
         DatePickerDialog(onDismissRequest = { showPicker = false }, confirmButton = {
             TextButton(onClick = {
                 showPicker = false
-                // pull date from state below
-            }) { Text("OK") }
+                // The picker operates with system's default, so we'll stick to it. Otherwise,
+                // the timezone conversion makes the final date have an offset of one day.
+                // TODO: Ask about this. Maybe it's better to simply use the system's timezone
+                val selectedDate = datePickerState.selectedDateMillis?.let { millis ->
+                        Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate()
+                    } ?: LocalDate.now()
+
+                onDateSelected(selectedDate)
+
+            }) { Text(stringResource(R.string.date_picker_confirm_button_text)) }
         }) {
             DatePicker(
-                state = rememberDatePickerState(initialDate.toEpochDay()),
+                state = datePickerState,
             )
         }
     }
 
     OutlinedTextField(
         value = initialDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")) ?: "",
-        onValueChange = { /* no-op for readOnly */ },
+        onValueChange = {},
         label = { Text(label) },
         readOnly = true,
         trailingIcon = {
             IconButton(onClick = { showPicker = true }) {
-                Icon(Icons.Filled.DateRange, contentDescription = "Select date")
+                Icon(Icons.Filled.DateRange, contentDescription = stringResource(R.string.date_picker_title))
             }
         },
         modifier = modifier

@@ -23,13 +23,15 @@ import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.text.Headline
 import com.example.stockgazer.ui.screens.chart.ChartViewModel
 import com.example.stockgazer.ui.theme.Primary100
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun YourTradesSection() {
     val viewModel = hiltViewModel<ChartViewModel>()
-    val isAddingTrade = viewModel.isAddingTrade.collectAsState()
+    val showTradeCreationModal = viewModel.showTradeCreationModal.collectAsState()
+    val trades = viewModel.trades.collectAsState()
     val rotationAngle by animateFloatAsState(
-        targetValue = if (isAddingTrade.value) 45f else 0f,
+        targetValue = if (showTradeCreationModal.value) 45f else 0f,
         label = "Icon Rotation"
     )
 
@@ -56,13 +58,20 @@ fun YourTradesSection() {
     Spacer(modifier = Modifier.height(16.dp))
 
     AnimatedVisibility(
-        visible = isAddingTrade.value
+        visible = showTradeCreationModal.value
     ) {
         TradeCreationCard()
     }
     Spacer(modifier = Modifier.height(16.dp))
 
-    repeat(10) {
-        TradeRegister(1, "01/01/2024", "13:43", 5600.0, 0.6)
+    trades.value.forEach {
+        TradeRegister(
+            type = it.type,
+            amount = it.amount,
+            date = it.date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) ?: "",
+            time = it.time.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "",
+            price = 10_000.0,
+            variation = 0.01
+        )
     }
 }
