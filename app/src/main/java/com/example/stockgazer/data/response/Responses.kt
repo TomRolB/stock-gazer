@@ -20,3 +20,11 @@ data class Bar (
     val v: Int,     // volume
     val vw: Double  // volume-weighted average
 )
+
+data class SnapshotResponse (
+    val dailyBar: Bar,
+)
+
+data class DetailsResponse (
+    val name: String
+)

@@ -41,6 +41,6 @@ class MainActivity : FragmentActivity() {
 @Composable
 fun GreetingPreview() {
     StockGazerTheme {
-        HomeScreen()
+        HomeScreen(rememberNavController())
     }
 }

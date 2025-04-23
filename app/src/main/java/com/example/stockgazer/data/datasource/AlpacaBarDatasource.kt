@@ -3,6 +3,7 @@ package com.example.stockgazer.data.datasource
 import android.content.Context
 import com.example.stockgazer.R
 import com.example.stockgazer.data.response.BarsResponse
+import com.example.stockgazer.data.response.SnapshotResponse
 import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit.Call
 import retrofit.Callback
@@ -34,6 +35,39 @@ class AlpacaBarDatasource @Inject constructor(
     private val iso5DaysAgo = Instant.now().minus(5, ChronoUnit.DAYS).toString()
     private val isoYesterday = Instant.now().minus(1, ChronoUnit.DAYS).toString()
 
+    fun getSnapshotFromSymbol(
+        symbol: String,
+        onSuccess: (Map<String, SnapshotResponse>) -> Unit,
+        onFail: () -> Unit,
+        loadingFinished: () -> Unit
+    ) {
+        val call: Call<Map<String, SnapshotResponse>> = datasource.getSnapshotFromSymbol(
+            alpacaApiKeyId,
+            alpacaApiSecretKey,
+            listOf(symbol)
+        )
+
+        call.enqueue(object : Callback<Map<String, SnapshotResponse>> {
+            override fun onResponse(
+                response: Response<Map<String, SnapshotResponse>>?,
+                retrofit: Retrofit?
+            ) {
+                loadingFinished()
+                if(response?.isSuccess == true) {
+                    val snapshots: Map<String, SnapshotResponse> = response.body()
+                    onSuccess(snapshots)
+                } else {
+                    onFailure(Exception("Bad request"))
+                }
+            }
+
+            override fun onFailure(t: Throwable?) {
+                println("Could not fetch bars. Exception was $t")
+                onFail()
+            }
+
+        })
+    }
 
     fun getBarsFromSymbol(
         symbol: String,
@@ -44,7 +78,7 @@ class AlpacaBarDatasource @Inject constructor(
         val call: Call<BarsResponse> = datasource.getBarsForSymbol(
             alpacaApiKeyId,
             alpacaApiSecretKey,
-            symbol = "AAPL",
+            symbol,
             start = iso5DaysAgo, // TODO: check why it fails when setting it to 2 days ago
             end = isoYesterday
         )
@@ -62,15 +96,12 @@ class AlpacaBarDatasource @Inject constructor(
 
             override fun onFailure(t: Throwable?) {
                 println("Could not fetch bars. Exception was $t")
+                onFail()
             }
         })
     }
 
     fun getMostActiveStock() {
-        TODO("Not yet implemented")
-    }
-
-    fun getCompanyProfile(symbol: String) {
         TODO("Not yet implemented")
     }
 }

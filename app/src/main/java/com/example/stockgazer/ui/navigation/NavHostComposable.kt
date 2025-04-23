@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.stockgazer.ui.screens.chart.ChartScreen
 import com.example.stockgazer.ui.screens.home.HomeScreen
 import com.example.stockgazer.ui.screens.SearchScreen
@@ -21,11 +23,15 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         modifier = Modifier.fillMaxSize().padding(innerPadding).padding(20.dp)
     ) {
         composable(route = StockGazerScreen.Home.name) {
-            HomeScreen()
+            HomeScreen(navController)
         }
 
-        composable(route = StockGazerScreen.Chart.name) {
-            ChartScreen()
+        composable(route = StockGazerScreen.Chart.name + "/{symbol}",) { backstackEntry ->
+            val symbol = backstackEntry.arguments
+                ?.getString("symbol")
+                ?: "MSFT" // TODO: use a starred stock, from the DB
+
+            ChartScreen(symbol)
         }
 
         composable(route = StockGazerScreen.Search.name) {

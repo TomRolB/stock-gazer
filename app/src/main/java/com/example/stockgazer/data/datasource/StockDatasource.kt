@@ -23,5 +23,6 @@ interface StockDatasource {
         @Query("by") by: String,
         @Query("top") top: Int,
     ): List<StockMovement>
+
     fun getCompanyProfile(symbol: String): CompanyProfile
 }

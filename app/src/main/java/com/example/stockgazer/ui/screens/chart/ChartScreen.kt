@@ -30,13 +30,16 @@ import com.example.stockgazer.ui.theme.Loss300
 import com.example.stockgazer.ui.theme.Primary100
 
 @Composable
-fun ChartScreen() {
+fun ChartScreen(symbol: String) {
     val configuration = LocalConfiguration.current
-    // Convert the screen height from dp to Dp type
     val screenHeight = configuration.screenHeightDp.dp
 
     val viewModel = hiltViewModel<ChartViewModel>()
     val isFavorite by viewModel.isFavorite.collectAsState()
+    val latestPrice by viewModel.latestPrice.collectAsState()
+    val companyName by viewModel.companyName.collectAsState()
+
+    viewModel.load(symbol)
 
     Column(
         modifier = Modifier
@@ -48,7 +51,7 @@ fun ChartScreen() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Headline("MSFT")
+            Headline(symbol)
             IconButton(
                 onClick = { viewModel.toggleFavorite() }
             ) {
@@ -62,12 +65,12 @@ fun ChartScreen() {
                 )
             }
         }
-        Text("Microsoft Corporation Common Stock", color = Primary100)
+        Text(companyName, color = Primary100)
 
         Spacer(modifier = Modifier.height(16.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("239.07", color = Primary100)
-            Text("-0.46%", fontWeight = FontWeight.Bold, color = Loss300)
+            Text(latestPrice.value.toString(), color = Primary100)
+            Text("${latestPrice.dailyVariation}%", fontWeight = FontWeight.Bold, color = Loss300)
         }
 
         CandlestickChart(modifier = Modifier.height(screenHeight * 0.65f))

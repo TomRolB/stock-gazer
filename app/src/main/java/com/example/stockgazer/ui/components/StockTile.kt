@@ -27,13 +27,15 @@ fun StockTile(
     name: String,
     price: Double,
     variation: Double,
+    modifier: Modifier = Modifier
 ) {
     val stockRepository = FakeStockRepository()
 
     Row(
        modifier = Modifier
            .background(Primary900)
-           .padding(vertical = PaddingMedium),
+           .padding(vertical = PaddingMedium)
+           .then(modifier),
        horizontalArrangement = Arrangement.spacedBy(ElementSpacing),
        verticalAlignment = Alignment.CenterVertically
    ) {

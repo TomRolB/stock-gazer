@@ -1,4 +1,5 @@
 package com.example.stockgazer.ui.screens.home
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,20 +20,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.example.stockgazer.R
 import com.example.stockgazer.data.repository.FakeStockRepository
 import com.example.stockgazer.data.response.TopMarketMoversResponse
 import com.example.stockgazer.ui.components.ActiveStockCardSection
 import com.example.stockgazer.ui.components.StockTile
 import com.example.stockgazer.ui.components.text.Headline
+import com.example.stockgazer.ui.navigation.StockGazerScreen
 import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.HeadlineToIconSpacing
 import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.SectionSpacing
 
 @Composable
-fun HomeScreen() {
-    val stockRepository = FakeStockRepository();
+fun HomeScreen(navController: NavHostController) {
+    val stockRepository = FakeStockRepository()
     val viewModel = hiltViewModel<HomeViewModel>()
     val topMarketMovers: TopMarketMoversResponse by viewModel.topMarketMovers.collectAsStateWithLifecycle()
 
@@ -55,7 +58,7 @@ fun HomeScreen() {
 
 
         item {
-            FollowListSection(stockRepository)
+            FollowListSection(stockRepository, navController)
         }
 
         item {
@@ -90,8 +93,11 @@ fun HomeScreen() {
 }
 
 @Composable
-private fun FollowListSection(stockRepository: FakeStockRepository) {
-    val followList = stockRepository.getFollowList();
+private fun FollowListSection(
+    stockRepository: FakeStockRepository,
+    navController: NavHostController
+) {
+    val followList = stockRepository.getFollowList()
     var count = 0
 
     Column {
@@ -101,6 +107,9 @@ private fun FollowListSection(stockRepository: FakeStockRepository) {
                 name = stock.name,
                 price = stock.price,
                 variation = stock.change,
+                modifier = Modifier.clickable {
+                    navController.navigate("${StockGazerScreen.Chart.name}/${stock.symbol}" )
+                }
             )
             if (count < followList.size) HorizontalDivider( // TODO should be placed better
                 color = Primary100.copy(alpha = 0.5f),
