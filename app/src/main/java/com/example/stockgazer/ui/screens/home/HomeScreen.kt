@@ -23,6 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.stockgazer.R
 import com.example.stockgazer.data.repository.FakeStockRepository
+import com.example.stockgazer.data.response.MostActiveStockResponse
 import com.example.stockgazer.data.response.TopMarketMoversResponse
 import com.example.stockgazer.ui.components.ActiveStockCardSection
 import com.example.stockgazer.ui.components.StockTile
@@ -38,6 +39,7 @@ fun HomeScreen(navController: NavHostController) {
     val stockRepository = FakeStockRepository()
     val viewModel = hiltViewModel<HomeViewModel>()
     val topMarketMovers: TopMarketMoversResponse by viewModel.topMarketMovers.collectAsStateWithLifecycle()
+    val mostActiveStock: MostActiveStockResponse by viewModel.mostActiveStock.collectAsStateWithLifecycle()
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(ElementSpacing),
@@ -70,7 +72,7 @@ fun HomeScreen(navController: NavHostController) {
         }
 
         item {
-            ActiveStockCardSection()
+            ActiveStockCardSection(navController, mostActiveStock)
         }
 
         item {

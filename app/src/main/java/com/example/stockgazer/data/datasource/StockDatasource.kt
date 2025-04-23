@@ -1,8 +1,8 @@
 package com.example.stockgazer.data.datasource
 
+import com.example.stockgazer.data.response.MostActiveStockResponse
 import com.example.stockgazer.data.response.TopMarketMoversResponse
 import com.example.stockgazer.domain.model.CompanyProfile
-import com.example.stockgazer.domain.model.StockMovement
 import retrofit.Call
 import retrofit.http.GET
 import retrofit.http.Header
@@ -22,7 +22,7 @@ interface StockDatasource {
         @Header("APCA-API-SECRET-KEY") alpacaApiSecretKey: String,
         @Query("by") by: String,
         @Query("top") top: Int,
-    ): List<StockMovement>
+    ): Call<MostActiveStockResponse>
 
     fun getCompanyProfile(symbol: String): CompanyProfile
 }

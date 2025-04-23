@@ -26,10 +26,14 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
             HomeScreen(navController)
         }
 
+        composable(route = StockGazerScreen.Chart.name) {
+            ChartScreen("MSFT") // TODO (2do parcial): use a starred stock, from the DB
+        }
+
         composable(route = StockGazerScreen.Chart.name + "/{symbol}",) { backstackEntry ->
             val symbol = backstackEntry.arguments
                 ?.getString("symbol")
-                ?: "MSFT" // TODO: use a starred stock, from the DB
+                ?: "MSFT" // TODO (2do parcial): use a starred stock, from the DB
 
             ChartScreen(symbol)
         }

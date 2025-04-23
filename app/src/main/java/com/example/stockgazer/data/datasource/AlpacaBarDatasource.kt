@@ -35,8 +35,8 @@ class AlpacaBarDatasource @Inject constructor(
     private val iso5DaysAgo = Instant.now().minus(5, ChronoUnit.DAYS).toString()
     private val isoYesterday = Instant.now().minus(1, ChronoUnit.DAYS).toString()
 
-    fun getSnapshotFromSymbol(
-        symbol: String,
+    fun getSnapshotFromSymbols(
+        symbols: List<String>,
         onSuccess: (Map<String, SnapshotResponse>) -> Unit,
         onFail: () -> Unit,
         loadingFinished: () -> Unit
@@ -44,7 +44,7 @@ class AlpacaBarDatasource @Inject constructor(
         val call: Call<Map<String, SnapshotResponse>> = datasource.getSnapshotFromSymbol(
             alpacaApiKeyId,
             alpacaApiSecretKey,
-            listOf(symbol)
+            symbols
         )
 
         call.enqueue(object : Callback<Map<String, SnapshotResponse>> {

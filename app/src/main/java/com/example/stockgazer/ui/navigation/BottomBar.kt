@@ -1,6 +1,7 @@
 package com.example.stockgazer.ui.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
@@ -42,7 +43,7 @@ fun BottomBar(
     )
     val profileTab = TabBarItem(
         title = StockGazerScreen.Chart.name,
-        selectedIcon = ImageVector.vectorResource(R.drawable.chart), // TODO: fix icon
+        selectedIcon = Icons.AutoMirrored.Filled.List,
         unselectedIcon = Icons.AutoMirrored.Outlined.List
     )
 

@@ -1,6 +1,21 @@
 package com.example.stockgazer.data.response
 
 import com.example.stockgazer.domain.model.Stock
+import com.google.gson.annotations.SerializedName
+
+data class MostActiveStockResponse(
+    @SerializedName("last_updated")
+    val lastUpdated: String,
+    @SerializedName("most_actives")
+    val mostActives: List<StockMovement>
+)
+
+data class StockMovement (
+    val symbol: String,
+    @SerializedName("trade_count")
+    val tradeCount: Long,
+    val volume: Long
+)
 
 data class TopMarketMoversResponse(
     val gainers: List<Stock> = listOf(),

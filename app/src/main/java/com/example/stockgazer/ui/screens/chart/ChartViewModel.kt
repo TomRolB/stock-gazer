@@ -70,7 +70,7 @@ class ChartViewModel @Inject constructor(
     }
 
     private fun loadSnapshot(symbol: String) {
-        alpacaBarDatasource.getSnapshotFromSymbol(symbol, onSuccess = {
+        alpacaBarDatasource.getSnapshotFromSymbols(listOf(symbol), onSuccess = {
             val symbolsSnapshot: SnapshotResponse = it[symbol]!!
 
             viewModelScope.launch {

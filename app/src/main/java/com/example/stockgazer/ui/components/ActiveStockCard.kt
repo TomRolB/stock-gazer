@@ -76,45 +76,55 @@ fun ActiveStockCard(
                 )
             }
             Column(horizontalAlignment = Alignment.Start) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        painter = painterResource(
-                            id = R.drawable.trades
-                        ),
-                        contentDescription = stringResource(R.string.trade_icon_content_description),
-                        tint = Primary100,
-                        modifier = Modifier.size(IconSmall)
-                    )
-
-                    Text(
-                        "%,d".format(trades),
-                        textAlign = TextAlign.Left,
-                        color = Primary100,
-                    )
-                }
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        painter = painterResource(
-                            id = R.drawable.volume
-                        ),
-                        contentDescription = stringResource(R.string.volume_icon_content_description),
-                        tint = Primary100,
-                        modifier = Modifier.size(size = IconSmall)
-                    )
-
-                    Text(
-                        "%,d".format(volume),
-                        textAlign = TextAlign.Left,
-                        color = Primary100,
-                    )
-                }
+                Trades(trades)
+                Volume(volume)
             }
         }
+    }
+}
+
+@Composable
+private fun Trades(trades: Long) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            painter = painterResource(
+                id = R.drawable.trades
+            ),
+            contentDescription = stringResource(R.string.trade_icon_content_description),
+            tint = Primary100,
+            modifier = Modifier.size(IconSmall)
+        )
+
+        Text(
+            "%,d".format(trades),
+            textAlign = TextAlign.Left,
+            color = Primary100,
+        )
+    }
+}
+
+@Composable
+private fun Volume(volume: Long) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            painter = painterResource(
+                id = R.drawable.volume
+            ),
+            contentDescription = stringResource(R.string.volume_icon_content_description),
+            tint = Primary100,
+            modifier = Modifier.size(size = IconSmall)
+        )
+
+        Text(
+            "%,d".format(volume),
+            textAlign = TextAlign.Left,
+            color = Primary100,
+        )
     }
 }

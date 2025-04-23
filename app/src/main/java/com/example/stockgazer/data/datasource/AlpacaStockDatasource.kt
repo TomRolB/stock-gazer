@@ -2,6 +2,7 @@ package com.example.stockgazer.data.datasource
 
 import android.content.Context
 import com.example.stockgazer.R
+import com.example.stockgazer.data.response.MostActiveStockResponse
 import com.example.stockgazer.data.response.TopMarketMoversResponse
 import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit.Call
@@ -56,14 +57,45 @@ class AlpacaStockDatasource @Inject constructor(
             }
 
             override fun onFailure(t: Throwable?) {
-                println("Top Market Movers fetch failed")
-//                TODO("Not yet implemented")
+                println("Top Market Movers fetch failed: exception was $t")
+                onFail()
             }
         })
     }
 
-    fun getMostActiveStock() {
-        TODO("Not yet implemented")
+    fun getMostActiveStock (
+        onSuccess: (MostActiveStockResponse) -> Unit,
+        onFail: () -> Unit,
+        loadingFinished: () -> Unit
+    ) {
+        val alpacaApiKeyId: String = context.getString(R.string.APCA_API_KEY_ID)
+        val alpacaApiSecretKey: String = context.getString(R.string.APCA_API_SECRET_KEY)
+        val call: Call<MostActiveStockResponse> = datasource.getMostActiveStock(
+            alpacaApiKeyId,
+            alpacaApiSecretKey,
+            "trades",
+            20
+        )
+
+        call.enqueue(object : Callback<MostActiveStockResponse> {
+            override fun onResponse(
+                response: Response<MostActiveStockResponse>?,
+                retrofit: Retrofit?
+            ) {
+                loadingFinished()
+                if(response?.isSuccess == true) {
+                    val mostActiveStock: MostActiveStockResponse = response.body()
+                    onSuccess(mostActiveStock)
+                } else {
+                    onFailure(Exception("Bad request"))
+                }
+            }
+
+            override fun onFailure(t: Throwable?) {
+                println("Most Active stock fetch failed: exception was $t")
+                onFail()
+            }
+        })
     }
 
     fun getCompanyProfile(symbol: String) {

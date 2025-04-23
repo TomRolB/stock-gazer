@@ -6,6 +6,7 @@ import com.example.stockgazer.domain.model.FollowedStockData
 import com.example.stockgazer.domain.model.Stock
 import com.example.stockgazer.domain.model.StockMovement
 
+// TODO:
 class FakeStockRepository : StockRepository {
     override fun getTopMarketMovers(): TopMarketMoversResponse {
         val topGainers = listOf(
