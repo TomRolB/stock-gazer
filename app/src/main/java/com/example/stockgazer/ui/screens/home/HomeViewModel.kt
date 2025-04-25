@@ -1,13 +1,12 @@
 package com.example.stockgazer.ui.screens.home
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.stockgazer.data.datasource.AlpacaBarDatasource
 import com.example.stockgazer.data.datasource.AlpacaStockDatasource
 import com.example.stockgazer.data.response.MostActiveStockResponse
 import com.example.stockgazer.data.response.TopMarketMoversResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -15,13 +14,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val alpacaStockDatasource: AlpacaStockDatasource,
+    private val alpacaBarDatasource: AlpacaBarDatasource,
 ) : ViewModel() {
     private var _topMarketMovers = MutableStateFlow(TopMarketMoversResponse())
     val topMarketMovers = _topMarketMovers.asStateFlow()
 
-    private var _mostActiveStock = MutableStateFlow(MostActiveStockResponse("", listOf()))
+    private var _mostActiveStock = MutableStateFlow(listOf<ActiveStock>())
     val mostActiveStock = _mostActiveStock.asStateFlow()
 
     init {
@@ -50,8 +49,25 @@ class HomeViewModel @Inject constructor(
     private fun loadMostActiveStock() {
         alpacaStockDatasource.getMostActiveStock(
             onSuccess = {
+                loadPercentChanges(it)
+            },
+            onFail = {
+                // TODO: does it really have sense to retry an API call?
+            },
+            loadingFinished = {
+                // TODO: skeletons?
+            }
+        )
+    }
+
+    private fun loadPercentChanges(mostActiveStockResponse: MostActiveStockResponse) {
+        val symbols = mostActiveStockResponse.mostActives.map { it.symbol }
+        alpacaBarDatasource.getSnapshotFromSymbols(symbols,
+            onSuccess = { snapshots ->
                 viewModelScope.launch {
-                    _mostActiveStock.emit(it)
+                    _mostActiveStock.emit(
+                        ActiveStock.listFrom(mostActiveStockResponse, snapshots)
+                    )
                 }
             },
             onFail = {

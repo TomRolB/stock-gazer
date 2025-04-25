@@ -15,7 +15,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -31,6 +35,7 @@ import com.example.stockgazer.ui.components.input.TimeField
 import com.example.stockgazer.ui.screens.chart.ChartViewModel
 import com.example.stockgazer.ui.screens.chart.Trade
 import com.example.stockgazer.ui.screens.chart.TradeType.Buy
+import com.example.stockgazer.ui.screens.chart.TradeType.Sell
 import com.example.stockgazer.ui.theme.CardBorderRadius
 import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.Gain300
@@ -74,14 +79,30 @@ private fun TradeCreationFields(currentTrade: Trade, viewModel: ChartViewModel) 
     Column(
         verticalArrangement = Arrangement.spacedBy(InputSpacing)
     ) {
-        OutlinedTextField(label = { Text(stringResource(R.string.amount_traded_field_label)) },
+        OutlinedTextField(
+            label = {
+                Text(stringResource(R.string.amount_traded_field_label), color = Primary100)
+            },
             value = currentTrade.amount.absoluteValue.toString(),
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-            onValueChange  = {
+            onValueChange = {
                 val input = it.toIntOrNull()
                 if (input != null) viewModel.updateTradeAmount(input)
-            })
+            }
+        )
+
+        OutlinedTextField(label = {
+            Text(stringResource(R.string.price_field_label), color = Primary100)
+        },
+            value = currentTrade.price.absoluteValue.toString(),
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                val input = it.toDoubleOrNull()
+                if (input != null) viewModel.updateTradePrice(input)
+            }
+        )
 
         DateField(
             label = stringResource(R.string.trade_date_field_label),
@@ -111,24 +132,35 @@ private fun TradeType(viewModel: ChartViewModel) {
         modifier = Modifier.clickable {
             viewModel.toggleTradeType()
         }) {
-        StockAmountIcon(
-            currentTrade.type, size = IconBig
-        )
+        SingleChoiceSegmentedButtonRow {
+            SegmentedButton(
+                colors = SegmentedButtonDefaults.colors().copy(activeContainerColor = Primary800),
+                selected = currentTrade.type == Buy,
+                onClick = { viewModel.toggleTradeType() },
+                shape = SegmentedButtonDefaults.itemShape(
+                    0, count = 2
+                )
+            ) {
+                Text(
+                    stringResource(R.string.buy),
+                    color = Gain300,
+                )
+            }
 
-        if (currentTrade.type == Buy) {
-            Text(
-                stringResource(R.string.buy),
-                color = Gain300,
-                style = MaterialTheme.typography.headlineLarge
-            )
-        } else {
-            Text(
-                stringResource(R.string.sell),
-                color = Loss300,
-                style = MaterialTheme.typography.headlineLarge
-            )
+            SegmentedButton(
+                colors = SegmentedButtonDefaults.colors().copy(activeContainerColor = Primary800),
+                selected = currentTrade.type == Sell,
+                onClick = { viewModel.toggleTradeType() },
+                shape = SegmentedButtonDefaults.itemShape(
+                    1, count = 2
+                )
+            ) {
+                Text(
+                    stringResource(R.string.sell),
+                    color = Loss300,
+                )
+            }
         }
-
     }
 }
 

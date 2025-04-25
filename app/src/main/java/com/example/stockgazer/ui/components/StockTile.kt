@@ -18,8 +18,9 @@ import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.Gain300
 import com.example.stockgazer.ui.theme.Loss300
 import com.example.stockgazer.ui.theme.PaddingMedium
-import com.example.stockgazer.ui.theme.Primary900
 import com.example.stockgazer.ui.theme.Primary100
+import com.example.stockgazer.ui.theme.Primary900
+import com.example.stockgazer.util.asPercentageString
 
 @Composable
 fun StockTile(
@@ -39,7 +40,7 @@ fun StockTile(
        horizontalArrangement = Arrangement.spacedBy(ElementSpacing),
        verticalAlignment = Alignment.CenterVertically
    ) {
-       val logoUrl = stockRepository.getCompanyProfile(symbol).logoUrl
+       val logoUrl = stockRepository.getCompanyProfile(symbol).logoUrl // TODO: use url directly
        Logo(logoUrl, symbol)
        Column(modifier = Modifier.weight(1f)) {
            Text(
@@ -62,7 +63,7 @@ fun StockTile(
                color = Primary100,
            )
            Text(
-               "$variation%",
+               text = variation.asPercentageString(),
                color = if (variation < 0) Loss300 else Gain300,
                textAlign = TextAlign.Right,
                fontWeight = FontWeight.Bold

@@ -25,6 +25,6 @@ interface BarDatasource {
     fun getSnapshotFromSymbol(
         @Header("APCA-API-KEY-ID") alpacaApiKeyId: String,
         @Header("APCA-API-SECRET-KEY") alpacaApiSecretKey: String,
-        @Query("symbols") symbol: List<String>,
+        @Query("symbols") symbol: String,
     ): Call<Map<String, SnapshotResponse>>
 }

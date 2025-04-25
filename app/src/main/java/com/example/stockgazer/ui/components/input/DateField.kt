@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.stockgazer.R
+import com.example.stockgazer.ui.theme.Primary100
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -54,7 +55,9 @@ fun DateField(
 
                 onDateSelected(selectedDate)
 
-            }) { Text(stringResource(R.string.date_picker_confirm_button_text)) }
+            }) {
+                Text(stringResource(R.string.date_picker_confirm_button_text), color = Primary100)
+            }
         }) {
             DatePicker(
                 state = datePickerState,
@@ -65,7 +68,7 @@ fun DateField(
     OutlinedTextField(
         value = initialDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")) ?: "",
         onValueChange = {},
-        label = { Text(label) },
+        label = { Text(label, color = Primary100) },
         readOnly = true,
         trailingIcon = {
             IconButton(onClick = { showPicker = true }) {

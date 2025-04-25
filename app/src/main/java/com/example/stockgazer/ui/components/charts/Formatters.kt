@@ -3,7 +3,6 @@ package com.example.stockgazer.ui.components.charts
 import com.patrykandpatrick.vico.core.cartesian.CartesianMeasuringContext
 import com.patrykandpatrick.vico.core.cartesian.axis.Axis
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianValueFormatter
-import com.patrykandpatrick.vico.core.cartesian.marker.DefaultCartesianMarker
 import java.text.DecimalFormat
 import java.time.DayOfWeek
 import java.time.Instant
@@ -49,6 +48,3 @@ class BottomAxisValueFormatter(
         today != prevDay
     }
 }
-
-val MarkerValueFormatter =
-    DefaultCartesianMarker.ValueFormatter.default(DecimalFormat("$#,###.00"))

@@ -21,6 +21,7 @@
     <string name="buy">Buy</string>
     <string name="sell">Sell</string>
     <string name="amount_traded_field_label">Amount Traded</string>
+    <string name="price_field_label">Price</string>
     <string name="date_picker_title">Select date</string>
     <string name="date_picker_confirm_button_text">OK</string>
     <string name="trade_submit_button_text">Submit</string>

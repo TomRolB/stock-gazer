@@ -17,6 +17,7 @@ import com.example.stockgazer.ui.theme.Loss300
 import com.example.stockgazer.ui.theme.PaddingMedium
 import com.example.stockgazer.ui.theme.PaddingSmall
 import com.example.stockgazer.ui.theme.Primary100
+import com.example.stockgazer.util.asPercentageString
 
 @Composable
 fun TradeRegister(
@@ -25,7 +26,7 @@ fun TradeRegister(
     date: String,
     time: String,
     price: Double,
-    variation: Double,
+    percentChange: Double,
 ) {
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.padding(horizontal = PaddingMedium, vertical = PaddingSmall),
@@ -33,19 +34,19 @@ fun TradeRegister(
     ) {
         StockCount(amount, type)
         TradeDateTime(date, time)
-        PriceAndVariation(price, variation, type)
+        PriceAndChange(price, percentChange, type)
     }
 }
 
 @Composable
-private fun PriceAndVariation(price: Double, variation: Double, tradeType: TradeType) {
+private fun PriceAndChange(price: Double, percentChange: Double, tradeType: TradeType) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(price.toString(), fontWeight = FontWeight.Bold, color = Primary100)
         Text(
-            "$variation%",
+            percentChange.asPercentageString(),
             fontWeight = FontWeight.Bold,
             color = if (tradeType == TradeType.Buy) Gain300 else Loss300
         )

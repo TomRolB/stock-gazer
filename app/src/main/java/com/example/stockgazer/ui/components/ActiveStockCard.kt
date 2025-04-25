@@ -29,6 +29,7 @@ import com.example.stockgazer.ui.theme.Loss300
 import com.example.stockgazer.ui.theme.PaddingSmall
 import com.example.stockgazer.ui.theme.Primary900
 import com.example.stockgazer.ui.theme.Primary100
+import com.example.stockgazer.util.asPercentageString
 
 @Composable
 fun ActiveStockCard(
@@ -69,7 +70,7 @@ fun ActiveStockCard(
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    "$variation%",
+                    variation.asPercentageString(),
                     color = if (isGain) Gain300 else Loss300,
                     textAlign = TextAlign.Right,
                     fontWeight = FontWeight.Bold

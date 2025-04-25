@@ -4,7 +4,7 @@ import com.example.stockgazer.data.response.SnapshotResponse
 
 class LatestPrice(
     val value: Double,
-    val dailyVariation: Double
+    val dailyPercentChange: Double
 ) {
     companion object {
         fun fromSnapshotResponse(snapshotResponse: SnapshotResponse) =

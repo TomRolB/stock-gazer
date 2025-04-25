@@ -15,6 +15,9 @@ val IconBig = 32.dp
 
 val CardBorderRadius = 16.dp
 
+val ActiveStockCardWidth = 256.dp
+val ActiveStockCardHeight = 64.dp
+
 const val CandleThickness = 12f
 
 // TODO: add the rest

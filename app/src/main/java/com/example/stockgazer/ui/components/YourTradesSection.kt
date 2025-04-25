@@ -22,11 +22,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.text.Headline
 import com.example.stockgazer.ui.screens.chart.ChartViewModel
+import com.example.stockgazer.ui.screens.chart.LatestPrice
 import com.example.stockgazer.ui.theme.Primary100
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun YourTradesSection() {
+fun YourTradesSection(latestPrice: LatestPrice) {
     val viewModel = hiltViewModel<ChartViewModel>()
     val showTradeCreationModal = viewModel.showTradeCreationModal.collectAsState()
     val trades = viewModel.trades.collectAsState()
@@ -70,8 +71,8 @@ fun YourTradesSection() {
             amount = it.amount,
             date = it.date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) ?: "",
             time = it.time.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "",
-            price = 10_000.0,
-            variation = 0.01
+            price = it.price,
+            percentChange = (latestPrice.value / it.price - 1) * 100
         )
     }
 }

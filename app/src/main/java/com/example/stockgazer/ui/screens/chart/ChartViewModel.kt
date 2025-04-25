@@ -32,7 +32,7 @@ class ChartViewModel @Inject constructor(
     private var _latestPrice = MutableStateFlow(
         LatestPrice(
             value = 0.0,
-            dailyVariation = 0.0
+            dailyPercentChange = 0.0
         )
     )
     val latestPrice = _latestPrice.asStateFlow()
@@ -74,7 +74,9 @@ class ChartViewModel @Inject constructor(
             val symbolsSnapshot: SnapshotResponse = it[symbol]!!
 
             viewModelScope.launch {
-                _latestPrice.emit(LatestPrice.fromSnapshotResponse(symbolsSnapshot))
+                val latestPriceFetched = LatestPrice.fromSnapshotResponse(symbolsSnapshot)
+                _latestPrice.emit(latestPriceFetched)
+                _currentTrade.emit(_currentTrade.value.copy(price = latestPriceFetched.value))
             }
         }, onFail = {
             // TODO: skeleton? Fail image?
@@ -125,6 +127,16 @@ class ChartViewModel @Inject constructor(
         }
     }
 
+    fun updateTradePrice(price: Double) {
+        viewModelScope.launch {
+            _currentTrade.emit(
+                _currentTrade.value.copy(price = price)
+            )
+        }
+    }
+
+
+
     fun updateTradeDate(date: LocalDate) {
         viewModelScope.launch {
             _currentTrade.emit(
@@ -144,7 +156,9 @@ class ChartViewModel @Inject constructor(
     fun submitTrade() {
         viewModelScope.launch {
             _trades.emit(_trades.value + _currentTrade.value)
-            _currentTrade.emit(defaultTrade)
+            _currentTrade.emit(
+                defaultTrade.copy(price = _latestPrice.value.value)
+            )
             _showTradeCreationModal.emit(false)
         }
     }

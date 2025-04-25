@@ -44,7 +44,7 @@ class AlpacaBarDatasource @Inject constructor(
         val call: Call<Map<String, SnapshotResponse>> = datasource.getSnapshotFromSymbol(
             alpacaApiKeyId,
             alpacaApiSecretKey,
-            symbols
+            symbols.toString().trim('[', ']').replace(" ", "")
         )
 
         call.enqueue(object : Callback<Map<String, SnapshotResponse>> {

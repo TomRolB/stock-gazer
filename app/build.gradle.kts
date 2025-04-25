@@ -65,6 +65,7 @@ dependencies {
 
     // Charts
     implementation(libs.vico.compose.m3)
+    implementation(libs.vico.compose)
 
     //
     implementation(libs.androidx.ui.graphics)

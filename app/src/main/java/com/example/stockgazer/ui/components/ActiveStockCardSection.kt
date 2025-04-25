@@ -12,14 +12,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.stockgazer.data.repository.FakeStockRepository
-import com.example.stockgazer.data.response.MostActiveStockResponse
 import com.example.stockgazer.ui.navigation.StockGazerScreen
+import com.example.stockgazer.ui.screens.home.ActiveStock
+import com.example.stockgazer.ui.theme.ActiveStockCardHeight
+import com.example.stockgazer.ui.theme.ActiveStockCardWidth
 import com.example.stockgazer.ui.theme.ElementSpacing
 
 // TODO: move to screens/home? That would mean each screen would have its own components directory
 
 @Composable
-fun ActiveStockCardSection(navController: NavController, mostActiveStock: MostActiveStockResponse) {
+fun ActiveStockCardSection(navController: NavController, mostActiveStock: List<ActiveStock>) {
     val stockRepository = FakeStockRepository()
 
     LazyHorizontalGrid(
@@ -28,20 +30,18 @@ fun ActiveStockCardSection(navController: NavController, mostActiveStock: MostAc
         rows = GridCells.Fixed(2),
         modifier = Modifier.height(144.dp)
     ) {
-        val mostActiveStockList = mostActiveStock.mostActives
-
-        items(items = mostActiveStockList) { stock ->
+        items(items = mostActiveStock) { stock ->
             val logoUrl = stockRepository.getCompanyProfile(stock.symbol).logoUrl
             ActiveStockCard(
-                isGain = true,
+                isGain = stock.percentChange > 0,
                 symbol = stock.symbol,
                 trades = stock.tradeCount,
                 volume = stock.volume,
-                variation = 0.01,
+                variation = stock.percentChange,
                 logoUrl = logoUrl,
                 modifier = Modifier
-                    .width(240.dp)
-                    .height(64.dp)
+                    .width(ActiveStockCardWidth)
+                    .height(ActiveStockCardHeight)
                     .clickable {
                         navController.navigate("${StockGazerScreen.Chart.name}/${stock.symbol}" )
                     }

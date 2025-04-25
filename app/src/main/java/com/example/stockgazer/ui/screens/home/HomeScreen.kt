@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -23,7 +22,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.stockgazer.R
 import com.example.stockgazer.data.repository.FakeStockRepository
-import com.example.stockgazer.data.response.MostActiveStockResponse
 import com.example.stockgazer.data.response.TopMarketMoversResponse
 import com.example.stockgazer.ui.components.ActiveStockCardSection
 import com.example.stockgazer.ui.components.StockTile
@@ -39,7 +37,7 @@ fun HomeScreen(navController: NavHostController) {
     val stockRepository = FakeStockRepository()
     val viewModel = hiltViewModel<HomeViewModel>()
     val topMarketMovers: TopMarketMoversResponse by viewModel.topMarketMovers.collectAsStateWithLifecycle()
-    val mostActiveStock: MostActiveStockResponse by viewModel.mostActiveStock.collectAsStateWithLifecycle()
+    val mostActiveStock: List<ActiveStock> by viewModel.mostActiveStock.collectAsStateWithLifecycle()
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(ElementSpacing),
@@ -57,7 +55,6 @@ fun HomeScreen(navController: NavHostController) {
                 )
             }
         }
-
 
         item {
             FollowListSection(stockRepository, navController)
@@ -78,19 +75,6 @@ fun HomeScreen(navController: NavHostController) {
         item {
             Spacer(modifier = Modifier.size(SectionSpacing))
         }
-
-        item {
-            Headline(stringResource(R.string.top_market_movers_title))
-        }
-
-        items(items = topMarketMovers.gainers) { gainer ->
-            StockTile(
-                symbol = gainer.symbol,
-                name = "adsa",
-                price = gainer.price,
-                variation = gainer.percentChange
-            )
-        }
     }
 }
 
@@ -108,7 +92,7 @@ private fun FollowListSection(
                 symbol = stock.symbol,
                 name = stock.name,
                 price = stock.price,
-                variation = stock.change,
+                variation = stock.percentChange,
                 modifier = Modifier.clickable {
                     navController.navigate("${StockGazerScreen.Chart.name}/${stock.symbol}" )
                 }
