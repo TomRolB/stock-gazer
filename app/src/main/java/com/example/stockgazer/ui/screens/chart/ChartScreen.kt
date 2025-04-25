@@ -41,6 +41,7 @@ fun ChartScreen(symbol: String) {
     val isFavorite by viewModel.isFavorite.collectAsState()
     val latestPrice by viewModel.latestPrice.collectAsState()
     val companyName by viewModel.companyName.collectAsState()
+    val bars by viewModel.bars.collectAsState()
 
     viewModel.load(symbol)
 
@@ -80,7 +81,11 @@ fun ChartScreen(symbol: String) {
             )
         }
 
-        CandlestickChart(modifier = Modifier.height(screenHeight * 0.65f))
+        CandlestickChart(
+            bars = bars,
+            timeZone = viewModel.zoneIdProvider.getTimeZone(),
+            modifier = Modifier.height(screenHeight * 0.65f)
+        )
 
         Spacer(modifier = Modifier.height(SectionSpacing))
 

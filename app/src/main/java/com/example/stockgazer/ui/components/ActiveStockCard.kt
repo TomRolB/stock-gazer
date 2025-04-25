@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.images.Logo
 import com.example.stockgazer.ui.theme.ElementSpacing
@@ -30,6 +31,7 @@ import com.example.stockgazer.ui.theme.PaddingSmall
 import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.Primary900
 import com.example.stockgazer.ui.theme.StockCardBorderRadius
+import com.example.stockgazer.ui.theme.StockGazerTheme
 import com.example.stockgazer.util.asPercentageString
 
 @Composable
@@ -39,7 +41,6 @@ fun ActiveStockCard(
     variation: Double,
     trades: Long,
     volume: Long,
-    logoUrl: String,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -59,6 +60,7 @@ fun ActiveStockCard(
             horizontalArrangement = Arrangement.spacedBy(ElementSpacing),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val logoUrl = stringResource(R.string.logos_url) + "$symbol.png"
             Logo(
                 logoUrl = logoUrl,
                 symbol = symbol
@@ -129,3 +131,18 @@ private fun Volume(volume: Long) {
         )
     }
 }
+
+@Composable
+@Preview(showBackground = false)
+fun ActiveStockCardPreview() {
+    StockGazerTheme {
+        ActiveStockCard(
+            isGain = true,
+            symbol = "GOOG",
+            variation = 2.75,
+            trades = 123_456,
+            volume = 9_876_543
+        )
+    }
+}
+
