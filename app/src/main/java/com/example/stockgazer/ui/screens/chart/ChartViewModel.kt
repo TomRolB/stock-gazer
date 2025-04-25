@@ -119,7 +119,7 @@ class ChartViewModel @Inject constructor(
         }
     }
 
-    fun updateTradeAmount(amount: Int) {
+    fun updateTradeAmount(amount: Int?) {
         viewModelScope.launch {
             _currentTrade.emit(
                 _currentTrade.value.copy(amount = amount)
@@ -127,7 +127,7 @@ class ChartViewModel @Inject constructor(
         }
     }
 
-    fun updateTradePrice(price: Double) {
+    fun updateTradePrice(price: Double?) {
         viewModelScope.launch {
             _currentTrade.emit(
                 _currentTrade.value.copy(price = price)

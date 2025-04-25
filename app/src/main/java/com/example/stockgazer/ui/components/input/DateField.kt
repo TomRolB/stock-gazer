@@ -7,6 +7,7 @@ import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.stockgazer.R
 import com.example.stockgazer.ui.theme.Primary100
+import com.example.stockgazer.ui.theme.Primary500
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -46,9 +48,6 @@ fun DateField(
         DatePickerDialog(onDismissRequest = { showPicker = false }, confirmButton = {
             TextButton(onClick = {
                 showPicker = false
-                // The picker operates with system's default, so we'll stick to it. Otherwise,
-                // the timezone conversion makes the final date have an offset of one day.
-                // TODO: Ask about this. Maybe it's better to simply use the system's timezone
                 val selectedDate = datePickerState.selectedDateMillis?.let { millis ->
                         Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate()
                     } ?: LocalDate.now()
@@ -56,7 +55,7 @@ fun DateField(
                 onDateSelected(selectedDate)
 
             }) {
-                Text(stringResource(R.string.date_picker_confirm_button_text), color = Primary100)
+                Text(stringResource(R.string.date_picker_confirm_button_text), color = Primary500)
             }
         }) {
             DatePicker(
@@ -75,6 +74,7 @@ fun DateField(
                 Icon(Icons.Filled.DateRange, contentDescription = stringResource(R.string.date_picker_title))
             }
         },
-        modifier = modifier
+        modifier = modifier,
+        textStyle = LocalTextStyle.current.copy(color = Primary100)
     )
 }

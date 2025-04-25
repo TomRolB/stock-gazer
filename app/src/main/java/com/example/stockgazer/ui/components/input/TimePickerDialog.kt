@@ -43,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.example.stockgazer.R
+import com.example.stockgazer.ui.theme.Primary500
 import java.time.LocalTime
 
 // Code copied from Google's issue tracker:
@@ -84,7 +85,7 @@ fun TimePickerDialog(
             )
             Spacer(Modifier.weight(1f))
             TextButton(onClick = onDismissRequest) {
-                Text(stringResource(R.string.common_button_cancel))
+                Text(stringResource(R.string.common_button_cancel), color = Primary500)
             }
             TextButton(onClick = ::onConfirmClicked) {
                 Text(stringResource(R.string.common_button_ok))

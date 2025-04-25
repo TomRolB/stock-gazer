@@ -68,10 +68,10 @@ fun YourTradesSection(latestPrice: LatestPrice) {
     trades.value.forEach {
         TradeRegister(
             type = it.type,
-            amount = it.amount,
+            amount = it.amount!!,
+            price = it.price!!,
             date = it.date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) ?: "",
             time = it.time.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "",
-            price = it.price,
             percentChange = (latestPrice.value / it.price - 1) * 100
         )
     }

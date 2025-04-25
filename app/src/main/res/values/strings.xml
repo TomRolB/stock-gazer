@@ -18,9 +18,9 @@
     <string name="trade_icon_content_description">An arrow pointing to the right with another arrow below it, which points to the left</string>
     <string name="volume_icon_content_description">Increasing trend shown with three rising bars</string>
     <string name="add_icon_content_description">A circle with a plus sign inside it</string>
-    <string name="buy">Buy</string>
-    <string name="sell">Sell</string>
-    <string name="amount_traded_field_label">Amount Traded</string>
+    <string name="buy">Bought</string>
+    <string name="sell">Sold</string>
+    <string name="amount_traded_field_label">Amount</string>
     <string name="price_field_label">Price</string>
     <string name="date_picker_title">Select date</string>
     <string name="date_picker_confirm_button_text">OK</string>

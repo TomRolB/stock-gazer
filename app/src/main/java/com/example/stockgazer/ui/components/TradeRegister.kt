@@ -76,7 +76,7 @@ private fun StockCount(amount: Int, tradeType: TradeType) {
         )
         Text(
             amount.toString(),
-            color = if (amount < 0) Loss300 else Gain300,
+            color = if (tradeType == TradeType.Sell) Loss300 else Gain300,
             fontWeight = FontWeight.Bold
         )
     }

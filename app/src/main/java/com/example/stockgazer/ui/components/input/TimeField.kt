@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
@@ -46,6 +47,7 @@ fun TimeField(
                 Icon(Icons.Filled.ShoppingCart, contentDescription = "Select time")
             }
         },
-        modifier    = modifier
+        modifier = modifier,
+        textStyle = LocalTextStyle.current.copy(color = Primary100)
     )
 }
