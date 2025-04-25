@@ -5,22 +5,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import com.example.stockgazer.ui.screens.SearchScreen
 import com.example.stockgazer.ui.screens.chart.ChartScreen
 import com.example.stockgazer.ui.screens.home.HomeScreen
-import com.example.stockgazer.ui.screens.SearchScreen
+import com.example.stockgazer.ui.theme.PaddingMedium
 
 @Composable
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = StockGazerScreen.Home.name,
-        modifier = Modifier.fillMaxSize().padding(innerPadding).padding(20.dp)
+        modifier = Modifier.fillMaxSize().padding(innerPadding).padding(PaddingMedium)
     ) {
         composable(route = StockGazerScreen.Home.name) {
             HomeScreen(navController)
@@ -30,7 +28,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
             ChartScreen("MSFT") // TODO (2do parcial): use a starred stock, from the DB
         }
 
-        composable(route = StockGazerScreen.Chart.name + "/{symbol}",) { backstackEntry ->
+        composable(route = StockGazerScreen.Chart.name + "/{symbol}") { backstackEntry ->
             val symbol = backstackEntry.arguments
                 ?.getString("symbol")
                 ?: "MSFT" // TODO (2do parcial): use a starred stock, from the DB

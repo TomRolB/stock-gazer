@@ -6,11 +6,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SegmentedButtonDefaults.BorderWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,16 +19,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.images.Logo
 import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.Gain300
 import com.example.stockgazer.ui.theme.IconSmall
+import com.example.stockgazer.ui.theme.IconToTextSpacingSmall
 import com.example.stockgazer.ui.theme.Loss300
 import com.example.stockgazer.ui.theme.PaddingSmall
-import com.example.stockgazer.ui.theme.Primary900
 import com.example.stockgazer.ui.theme.Primary100
+import com.example.stockgazer.ui.theme.Primary900
+import com.example.stockgazer.ui.theme.StockCardBorderRadius
 import com.example.stockgazer.util.asPercentageString
 
 @Composable
@@ -39,18 +40,17 @@ fun ActiveStockCard(
     trades: Long,
     volume: Long,
     logoUrl: String,
-    modifier: Modifier? = Modifier
+    modifier: Modifier = Modifier
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .border(
-                width = 0.5.dp,
+                width = BorderWidth,
                 color = Primary100,
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(StockCardBorderRadius)
             )
-            .height(32.dp)
-            .let { modifier?.let { outerModifier -> it.then(outerModifier) } ?: it }
+            .then(modifier)
     ) {
         Row(
             modifier = Modifier
@@ -87,7 +87,7 @@ fun ActiveStockCard(
 @Composable
 private fun Trades(trades: Long) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(IconToTextSpacingSmall),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -110,7 +110,7 @@ private fun Trades(trades: Long) {
 @Composable
 private fun Volume(volume: Long) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(IconToTextSpacingSmall),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(

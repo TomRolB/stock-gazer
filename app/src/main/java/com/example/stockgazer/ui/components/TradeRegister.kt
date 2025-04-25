@@ -8,15 +8,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.example.stockgazer.ui.components.icons.StockAmountIcon
 import com.example.stockgazer.ui.screens.chart.TradeType
 import com.example.stockgazer.ui.theme.Gain300
 import com.example.stockgazer.ui.theme.IconSmall
+import com.example.stockgazer.ui.theme.IconToTextSpacingMedium
 import com.example.stockgazer.ui.theme.Loss300
+import com.example.stockgazer.ui.theme.NumbersHorizontalSpacing
 import com.example.stockgazer.ui.theme.PaddingMedium
 import com.example.stockgazer.ui.theme.PaddingSmall
 import com.example.stockgazer.ui.theme.Primary100
+import com.example.stockgazer.ui.theme.TradeRegisterElementSpacing
 import com.example.stockgazer.util.asPercentageString
 
 @Composable
@@ -28,7 +30,7 @@ fun TradeRegister(
     price: Double,
     percentChange: Double,
 ) {
-    Row(horizontalArrangement = Arrangement.spacedBy(16.dp),
+    Row(horizontalArrangement = Arrangement.spacedBy(TradeRegisterElementSpacing),
         modifier = Modifier.padding(horizontal = PaddingMedium, vertical = PaddingSmall),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -41,7 +43,7 @@ fun TradeRegister(
 @Composable
 private fun PriceAndChange(price: Double, percentChange: Double, tradeType: TradeType) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(NumbersHorizontalSpacing),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(price.toString(), fontWeight = FontWeight.Bold, color = Primary100)
@@ -56,7 +58,7 @@ private fun PriceAndChange(price: Double, percentChange: Double, tradeType: Trad
 @Composable
 private fun TradeDateTime(date: String, time: String) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(NumbersHorizontalSpacing),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(date, color = Primary100)
@@ -67,7 +69,7 @@ private fun TradeDateTime(date: String, time: String) {
 @Composable
 private fun StockCount(amount: Int, tradeType: TradeType) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(IconToTextSpacingMedium),
         verticalAlignment = Alignment.CenterVertically
     ) {
         StockAmountIcon(

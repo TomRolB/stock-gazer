@@ -27,7 +27,9 @@ import com.example.stockgazer.ui.components.YourTradesSection
 import com.example.stockgazer.ui.components.charts.CandlestickChart
 import com.example.stockgazer.ui.components.text.Headline
 import com.example.stockgazer.ui.theme.Loss300
+import com.example.stockgazer.ui.theme.NumbersHorizontalSpacing
 import com.example.stockgazer.ui.theme.Primary100
+import com.example.stockgazer.ui.theme.SectionSpacing
 import com.example.stockgazer.util.asPercentageString
 
 @Composable
@@ -68,8 +70,8 @@ fun ChartScreen(symbol: String) {
         }
         Text(companyName, color = Primary100)
 
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Spacer(modifier = Modifier.height(SectionSpacing))
+        Row(horizontalArrangement = Arrangement.spacedBy(NumbersHorizontalSpacing)) {
             Text(latestPrice.value.toString(), color = Primary100)
             Text(
                 text = latestPrice.dailyPercentChange.asPercentageString(),
@@ -80,7 +82,7 @@ fun ChartScreen(symbol: String) {
 
         CandlestickChart(modifier = Modifier.height(screenHeight * 0.65f))
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(SectionSpacing))
 
         YourTradesSection(latestPrice)
     }

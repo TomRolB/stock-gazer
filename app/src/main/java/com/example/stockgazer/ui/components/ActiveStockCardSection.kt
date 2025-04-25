@@ -9,12 +9,12 @@ import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.stockgazer.data.repository.FakeStockRepository
 import com.example.stockgazer.ui.navigation.StockGazerScreen
 import com.example.stockgazer.ui.screens.home.ActiveStock
 import com.example.stockgazer.ui.theme.ActiveStockCardHeight
+import com.example.stockgazer.ui.theme.ActiveStockCardSectionHeight
 import com.example.stockgazer.ui.theme.ActiveStockCardWidth
 import com.example.stockgazer.ui.theme.ElementSpacing
 
@@ -28,7 +28,7 @@ fun ActiveStockCardSection(navController: NavController, mostActiveStock: List<A
         horizontalArrangement = Arrangement.spacedBy(ElementSpacing),
         verticalArrangement = Arrangement.spacedBy(ElementSpacing),
         rows = GridCells.Fixed(2),
-        modifier = Modifier.height(144.dp)
+        modifier = Modifier.height(ActiveStockCardSectionHeight)
     ) {
         items(items = mostActiveStock) { stock ->
             val logoUrl = stockRepository.getCompanyProfile(stock.symbol).logoUrl

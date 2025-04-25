@@ -40,10 +40,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.example.stockgazer.R
 import com.example.stockgazer.ui.theme.Primary500
+import com.example.stockgazer.ui.theme.TimePickerBottomPadding
+import com.example.stockgazer.ui.theme.TimePickerButtonsBottomPadding
+import com.example.stockgazer.ui.theme.TimePickerButtonsEndPadding
+import com.example.stockgazer.ui.theme.TimePickerButtonsSpacing
+import com.example.stockgazer.ui.theme.TimePickerButtonsStartPadding
+import com.example.stockgazer.ui.theme.TimePickerHorizontalPadding
+import com.example.stockgazer.ui.theme.TimePickerTonalElevation
+import com.example.stockgazer.ui.theme.TimePickerTopPadding
 import java.time.LocalTime
 
 // Code copied from Google's issue tracker:
@@ -92,7 +99,7 @@ fun TimePickerDialog(
             }
         },
     ) {
-        val contentModifier = Modifier.padding(horizontal = 24.dp)
+        val contentModifier = Modifier.padding(horizontal = TimePickerHorizontalPadding)
         when (mode) {
             DisplayMode.Picker -> TimePicker(modifier = contentModifier, state = state)
             DisplayMode.Input -> TimeInput(modifier = contentModifier, state = state)
@@ -117,6 +124,7 @@ private fun DisplayModeToggleButton(
                 contentDescription = stringResource(R.string.time_picker_button_select_input_mode),
             )
         }
+
         DisplayMode.Input -> IconButton(
             modifier = modifier,
             onClick = { onDisplayModeChange(DisplayMode.Picker) },
@@ -138,7 +146,7 @@ fun PickerDialog(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    BasicAlertDialog (
+    BasicAlertDialog(
         modifier = modifier
             .width(IntrinsicSize.Min)
             .height(IntrinsicSize.Min),
@@ -147,7 +155,7 @@ fun PickerDialog(
     ) {
         Surface(
             shape = MaterialTheme.shapes.extraLarge,
-            tonalElevation = 6.dp,
+            tonalElevation = TimePickerTonalElevation,
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 // Title
@@ -156,8 +164,11 @@ fun PickerDialog(
                         Box(
                             modifier = Modifier
                                 .align(Alignment.Start)
-                                .padding(horizontal = 24.dp)
-                                .padding(top = 16.dp, bottom = 20.dp),
+                                .padding(horizontal = TimePickerHorizontalPadding)
+                                .padding(
+                                    top = TimePickerTopPadding,
+                                    bottom = TimePickerBottomPadding
+                                ),
                         ) {
                             title()
                         }
@@ -174,8 +185,12 @@ fun PickerDialog(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(bottom = 8.dp, end = 6.dp, start = 6.dp),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
+                                .padding(
+                                    bottom = TimePickerButtonsBottomPadding,
+                                    end = TimePickerButtonsEndPadding,
+                                    start = TimePickerButtonsStartPadding
+                                ),
+                            horizontalArrangement = Arrangement.spacedBy(TimePickerButtonsSpacing, Alignment.End),
                         ) {
                             buttons()
                         }

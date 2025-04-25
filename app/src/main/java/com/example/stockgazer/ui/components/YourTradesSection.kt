@@ -17,12 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.text.Headline
 import com.example.stockgazer.ui.screens.chart.ChartViewModel
 import com.example.stockgazer.ui.screens.chart.LatestPrice
+import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.Primary100
 import java.time.format.DateTimeFormatter
 
@@ -56,14 +56,14 @@ fun YourTradesSection(latestPrice: LatestPrice) {
         }
     }
 
-    Spacer(modifier = Modifier.height(16.dp))
+    Spacer(modifier = Modifier.height(ElementSpacing))
 
     AnimatedVisibility(
         visible = showTradeCreationModal.value
     ) {
         TradeCreationCard()
     }
-    Spacer(modifier = Modifier.height(16.dp))
+    Spacer(modifier = Modifier.height(ElementSpacing))
 
     trades.value.forEach {
         TradeRegister(
