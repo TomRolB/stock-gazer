@@ -8,7 +8,7 @@ import java.time.LocalTime
 data class Trade(
     val type: TradeType = Buy,
     val amount: String = "1",
-    val price: String = "0.0",
+    val price: String = "",
     val date: LocalDate = LocalDate.now(),
     val time: LocalTime = LocalTime.now(),
 )

@@ -1,5 +1,6 @@
 package com.example.stockgazer.ui.components.input
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
@@ -14,6 +15,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import com.example.stockgazer.R
+import com.example.stockgazer.ui.theme.IconMedium
 import com.example.stockgazer.ui.theme.Primary100
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -44,7 +48,11 @@ fun TimeField(
         label = { Text(label, color = Primary100) },
         trailingIcon = {
             IconButton(onClick = { showPicker = true }) {
-                Icon(Icons.Filled.ShoppingCart, contentDescription = "Select time")
+                Icon(
+                    painter = painterResource(R.drawable.clock),
+                    contentDescription = "Select time",
+                    modifier = Modifier.size(IconMedium)
+                )
             }
         },
         modifier = modifier,

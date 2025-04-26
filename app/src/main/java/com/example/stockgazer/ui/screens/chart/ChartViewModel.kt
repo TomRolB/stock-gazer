@@ -75,8 +75,10 @@ class ChartViewModel @Inject constructor(
 
                 viewModelScope.launch {
                     val latestPriceFetched = LatestPrice.fromSnapshotResponse(symbolsSnapshot)
+                    if (!_latestPrice.value.isLoaded()) {
+                        _currentTrade.emit(_currentTrade.value.copy(price = latestPriceFetched.value.toString()))
+                    }
                     _latestPrice.emit(latestPriceFetched)
-                    _currentTrade.emit(_currentTrade.value.copy(price = latestPriceFetched.value.toString()))
                 }
             }, onFail = {},
             loadingFinished = {}

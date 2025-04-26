@@ -178,7 +178,7 @@ private fun TradeCreationButtons(viewModel: ChartViewModel) {
 
     Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
         val amount = currentTrade.amount.toIntOrNull()
-        val price = currentTrade.price.toIntOrNull()
+        val price = currentTrade.price.toDoubleOrNull()
         Button(
             enabled = amount != null &&
                     amount > 0 &&
