@@ -11,6 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.example.stockgazer.ui.components.icons.StockAmountIcon
 import com.example.stockgazer.ui.screens.chart.TradeType
 import com.example.stockgazer.ui.theme.Gain300
+import com.example.stockgazer.ui.theme.IconMedium
 import com.example.stockgazer.ui.theme.IconSmall
 import com.example.stockgazer.ui.theme.IconToTextSpacingMedium
 import com.example.stockgazer.ui.theme.Loss300
@@ -50,7 +51,7 @@ private fun PriceAndChange(price: Double, percentChange: Double, tradeType: Trad
         Text(
             percentChange.asPercentageString(),
             fontWeight = FontWeight.Bold,
-            color = if (tradeType == TradeType.Buy) Gain300 else Loss300
+            color = if (percentChange >= 0) Gain300 else Loss300
         )
     }
 }
@@ -74,7 +75,7 @@ private fun StockCount(amount: Int, tradeType: TradeType) {
     ) {
         StockAmountIcon(
             type = tradeType,
-            size = IconSmall
+            size = IconMedium
         )
         Text(
             amount.toString(),

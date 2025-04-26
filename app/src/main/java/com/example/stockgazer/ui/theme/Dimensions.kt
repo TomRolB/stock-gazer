@@ -27,7 +27,8 @@ val TimePickerButtonsStartPadding = 6.dp
 
 val TimePickerTonalElevation = 6.dp
 
-val IconSmall = 12.dp // TODO: check icons have equal size by default
+val IconSmall = 12.dp
+val IconMedium = 20.dp
 val IconBig = 32.dp
 
 val LogoImageSize = 42.dp
@@ -42,5 +43,3 @@ val ActiveStockCardSectionHeight = 144.dp
 val BorderWidth = 0.5.dp
 
 const val CandleThickness = 12f
-
-// TODO: add the rest

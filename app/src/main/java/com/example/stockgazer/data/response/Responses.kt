@@ -22,7 +22,6 @@ data class TopMarketMoversResponse(
     val losers: List<Stock> = listOf(),
 )
 
-//TODO: won't work because data is returned in other format.
 data class BarsResponse(val bars: List<Bar>)
 
 data class Bar (

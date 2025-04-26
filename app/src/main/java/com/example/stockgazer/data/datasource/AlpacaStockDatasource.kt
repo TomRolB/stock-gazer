@@ -97,8 +97,4 @@ class AlpacaStockDatasource @Inject constructor(
             }
         })
     }
-
-    fun getCompanyProfile(symbol: String) {
-        TODO("Not yet implemented")
-    }
 }

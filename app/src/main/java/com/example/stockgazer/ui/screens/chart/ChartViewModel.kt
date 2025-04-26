@@ -57,46 +57,41 @@ class ChartViewModel @Inject constructor(
     }
 
     private fun loadDetails(symbol: String) {
-        alpacaDetailsDatasource.getStockOverview(symbol, onSuccess = {
-            viewModelScope.launch {
-                _companyName.emit(it.name)
-            }
-        }, onFail = {
-            // TODO: skeleton? Fail image?
-
-        }, loadingFinished = {
-            // TODO: ???
-        })
+        alpacaDetailsDatasource.getStockOverview(symbol,
+            onSuccess = {
+                viewModelScope.launch {
+                    _companyName.emit(it.name)
+                }
+            },
+            onFail = {},
+            loadingFinished = {}
+        )
     }
 
     private fun loadSnapshot(symbol: String) {
-        alpacaBarDatasource.getSnapshotFromSymbols(listOf(symbol), onSuccess = {
-            val symbolsSnapshot: SnapshotResponse = it[symbol]!!
+        alpacaBarDatasource.getSnapshotFromSymbols(listOf(symbol),
+            onSuccess = {
+                val symbolsSnapshot: SnapshotResponse = it[symbol]!!
 
-            viewModelScope.launch {
-                val latestPriceFetched = LatestPrice.fromSnapshotResponse(symbolsSnapshot)
-                _latestPrice.emit(latestPriceFetched)
-                _currentTrade.emit(_currentTrade.value.copy(price = latestPriceFetched.value))
-            }
-        }, onFail = {
-            // TODO: skeleton? Fail image?
-
-        }, loadingFinished = {
-            // TODO: ???
-        })
+                viewModelScope.launch {
+                    val latestPriceFetched = LatestPrice.fromSnapshotResponse(symbolsSnapshot)
+                    _latestPrice.emit(latestPriceFetched)
+                    _currentTrade.emit(_currentTrade.value.copy(price = latestPriceFetched.value.toString()))
+                }
+            }, onFail = {},
+            loadingFinished = {}
+        )
     }
 
     private fun loadBars(symbol: String) {
-        alpacaBarDatasource.getBarsFromSymbol(symbol, onSuccess = {
-            viewModelScope.launch {
-                _bars.emit(BarPeriod.fromBarResponse(it))
-            }
-        }, onFail = {
-            // TODO: skeleton? Fail image?
-
-        }, loadingFinished = {
-            // TODO: ???
-        })
+        alpacaBarDatasource.getBarsFromSymbol(symbol,
+            onSuccess = {
+                viewModelScope.launch {
+                    _bars.emit(BarPeriod.fromBarResponse(it))
+                }
+            },
+            onFail = {},
+            loadingFinished = {})
     }
 
     fun toggleFavorite() {
@@ -119,7 +114,7 @@ class ChartViewModel @Inject constructor(
         }
     }
 
-    fun updateTradeAmount(amount: Int?) {
+    fun updateTradeAmount(amount: String) {
         viewModelScope.launch {
             _currentTrade.emit(
                 _currentTrade.value.copy(amount = amount)
@@ -127,14 +122,13 @@ class ChartViewModel @Inject constructor(
         }
     }
 
-    fun updateTradePrice(price: Double?) {
+    fun updateTradePrice(price: String) {
         viewModelScope.launch {
             _currentTrade.emit(
                 _currentTrade.value.copy(price = price)
             )
         }
     }
-
 
 
     fun updateTradeDate(date: LocalDate) {
@@ -157,7 +151,7 @@ class ChartViewModel @Inject constructor(
         viewModelScope.launch {
             _trades.emit(_trades.value + _currentTrade.value)
             _currentTrade.emit(
-                defaultTrade.copy(price = _latestPrice.value.value)
+                defaultTrade.copy(price = _latestPrice.value.value.toString())
             )
             _showTradeCreationModal.emit(false)
         }

@@ -18,7 +18,6 @@ class HomeViewModel @Inject constructor(
     private val alpacaBarDatasource: AlpacaBarDatasource,
 ) : ViewModel() {
     private var _topMarketMovers = MutableStateFlow(TopMarketMoversResponse())
-    val topMarketMovers = _topMarketMovers.asStateFlow()
 
     private var _mostActiveStock = MutableStateFlow(listOf<ActiveStock>())
     val mostActiveStock = _mostActiveStock.asStateFlow()
@@ -35,12 +34,8 @@ class HomeViewModel @Inject constructor(
                     _topMarketMovers.emit(it)
                 }
             },
-            onFail = {
-                // TODO: does it really have sense to retry an API call?
-            },
-            loadingFinished = {
-                // TODO: skeletons?
-            }
+            onFail = {},
+            loadingFinished = {}
         )
 
 
@@ -51,12 +46,8 @@ class HomeViewModel @Inject constructor(
             onSuccess = {
                 loadPercentChanges(it)
             },
-            onFail = {
-                // TODO: does it really have sense to retry an API call?
-            },
-            loadingFinished = {
-                // TODO: skeletons?
-            }
+            onFail = {},
+            loadingFinished = {}
         )
     }
 
@@ -70,12 +61,8 @@ class HomeViewModel @Inject constructor(
                     )
                 }
             },
-            onFail = {
-                // TODO: does it really have sense to retry an API call?
-            },
-            loadingFinished = {
-                // TODO: skeletons?
-            }
+            onFail = {},
+            loadingFinished = {}
         )
     }
 }

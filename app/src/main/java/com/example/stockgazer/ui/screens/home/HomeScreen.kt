@@ -21,7 +21,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.stockgazer.R
 import com.example.stockgazer.data.repository.FakeStockRepository
-import com.example.stockgazer.data.response.TopMarketMoversResponse
 import com.example.stockgazer.ui.components.ActiveStockCardSection
 import com.example.stockgazer.ui.components.StockTile
 import com.example.stockgazer.ui.components.text.Headline
@@ -36,7 +35,6 @@ import com.example.stockgazer.ui.theme.SectionSpacing
 fun HomeScreen(navController: NavHostController) {
     val stockRepository = FakeStockRepository()
     val viewModel = hiltViewModel<HomeViewModel>()
-    val topMarketMovers: TopMarketMoversResponse by viewModel.topMarketMovers.collectAsStateWithLifecycle()
     val mostActiveStock: List<ActiveStock> by viewModel.mostActiveStock.collectAsStateWithLifecycle()
 
     LazyColumn(
@@ -97,7 +95,7 @@ private fun FollowListSection(
                     navController.navigate("${StockGazerScreen.Chart.name}/${stock.symbol}" )
                 }
             )
-            if (count < followList.size) HorizontalDivider( // TODO should be placed better
+            if (count < followList.size) HorizontalDivider(
                 color = Primary100.copy(alpha = 0.5f),
                 modifier = Modifier.padding(horizontal = DividerHorizontalPadding)
             )

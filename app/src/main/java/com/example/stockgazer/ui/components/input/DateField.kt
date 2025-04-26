@@ -36,7 +36,7 @@ fun DateField(
     initialDate: LocalDate,
     timezone: ZoneId
 ) {
-    var showPicker by remember { mutableStateOf(false) } // TODO: OK to use remember?
+    var showPicker by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = initialDate
             .atStartOfDay(timezone)

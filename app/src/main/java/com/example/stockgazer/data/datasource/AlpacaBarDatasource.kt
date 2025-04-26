@@ -79,7 +79,7 @@ class AlpacaBarDatasource @Inject constructor(
             alpacaApiKeyId,
             alpacaApiSecretKey,
             symbol,
-            start = iso5DaysAgo, // TODO: check why it fails when setting it to 2 days ago
+            start = iso5DaysAgo,
             end = isoYesterday
         )
 
@@ -99,9 +99,5 @@ class AlpacaBarDatasource @Inject constructor(
                 onFail()
             }
         })
-    }
-
-    fun getMostActiveStock() {
-        TODO("Not yet implemented")
     }
 }

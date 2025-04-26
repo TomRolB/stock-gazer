@@ -25,7 +25,7 @@ fun TimeField(
     initialTime: LocalTime = LocalTime.now(),
     onTimeSelected: (LocalTime) -> Unit
 ) {
-    var showPicker by remember { mutableStateOf(false) } // TODO: OK to use remember?
+    var showPicker by remember { mutableStateOf(false) }
 
     if (showPicker) {
         TimePickerDialog(

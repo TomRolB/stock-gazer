@@ -31,6 +31,7 @@ import com.example.stockgazer.ui.theme.NumbersHorizontalSpacing
 import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.SectionSpacing
 import com.example.stockgazer.util.asPercentageString
+import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 
 @Composable
 fun ChartScreen(symbol: String) {
@@ -41,7 +42,6 @@ fun ChartScreen(symbol: String) {
     val isFavorite by viewModel.isFavorite.collectAsState()
     val latestPrice by viewModel.latestPrice.collectAsState()
     val companyName by viewModel.companyName.collectAsState()
-    val bars by viewModel.bars.collectAsState()
 
     viewModel.load(symbol)
 
@@ -82,8 +82,6 @@ fun ChartScreen(symbol: String) {
         }
 
         CandlestickChart(
-            bars = bars,
-            timeZone = viewModel.zoneIdProvider.getTimeZone(),
             modifier = Modifier.height(screenHeight * 0.65f)
         )
 

@@ -66,13 +66,14 @@ fun YourTradesSection(latestPrice: LatestPrice) {
     Spacer(modifier = Modifier.height(ElementSpacing))
 
     trades.value.forEach {
+        val price = it.price.toDouble()
         TradeRegister(
             type = it.type,
-            amount = it.amount!!,
-            price = it.price!!,
+            amount = it.amount.toInt(),
+            price = price,
             date = it.date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) ?: "",
             time = it.time.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "",
-            percentChange = (latestPrice.value / it.price - 1) * 100
+            percentChange = (latestPrice.value / price - 1) * 100
         )
     }
 }

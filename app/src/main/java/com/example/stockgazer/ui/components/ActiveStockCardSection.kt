@@ -20,7 +20,6 @@ import com.example.stockgazer.ui.theme.ActiveStockCardSectionHeight
 import com.example.stockgazer.ui.theme.ActiveStockCardWidth
 import com.example.stockgazer.ui.theme.ElementSpacing
 
-// TODO: move to screens/home? That would mean each screen would have its own components directory
 
 @Composable
 fun ActiveStockCardSection(navController: NavController, mostActiveStock: List<ActiveStock>) {

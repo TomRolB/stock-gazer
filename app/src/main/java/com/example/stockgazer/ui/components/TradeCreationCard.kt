@@ -31,7 +31,6 @@ import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.input.DateField
 import com.example.stockgazer.ui.components.input.TimeField
 import com.example.stockgazer.ui.screens.chart.ChartViewModel
-import com.example.stockgazer.ui.screens.chart.Trade
 import com.example.stockgazer.ui.screens.chart.TradeType.Buy
 import com.example.stockgazer.ui.screens.chart.TradeType.Sell
 import com.example.stockgazer.ui.theme.CardBorderRadius
@@ -46,12 +45,10 @@ import com.example.stockgazer.ui.theme.Primary300
 import com.example.stockgazer.ui.theme.Primary700
 import com.example.stockgazer.ui.theme.Primary800
 import com.example.stockgazer.ui.theme.Primary900
-import kotlin.math.absoluteValue
 
 @Composable
 fun TradeCreationCard() {
     val viewModel = hiltViewModel<ChartViewModel>()
-    val currentTrade by viewModel.currentTrade.collectAsState()
 
     Card(
         colors = CardDefaults.cardColors(containerColor = Primary800),
@@ -65,7 +62,7 @@ fun TradeCreationCard() {
                 verticalArrangement = Arrangement.spacedBy(ElementSpacing)
             ) {
                 TradeType(viewModel)
-                TradeCreationFields(currentTrade, viewModel)
+                TradeCreationFields()
                 TradeCreationButtons(viewModel)
             }
         }
@@ -73,7 +70,10 @@ fun TradeCreationCard() {
 }
 
 @Composable
-private fun TradeCreationFields(currentTrade: Trade, viewModel: ChartViewModel) {
+private fun TradeCreationFields() {
+    val viewModel = hiltViewModel<ChartViewModel>()
+    val currentTrade by viewModel.currentTrade.collectAsState()
+
     Column(
         verticalArrangement = Arrangement.spacedBy(InputSpacing)
     ) {
@@ -85,11 +85,10 @@ private fun TradeCreationFields(currentTrade: Trade, viewModel: ChartViewModel) 
                 label = {
                     Text(stringResource(R.string.amount_traded_field_label), color = Primary100)
                 },
-                value = currentTrade.amount?.absoluteValue?.toString() ?: "",
+                value = currentTrade.amount,
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 onValueChange = {
-                    val input = it.toIntOrNull()
-                    if (input == null || input >= 0) viewModel.updateTradeAmount(input)
+                    viewModel.updateTradeAmount(it)
                 },
                 textStyle = LocalTextStyle.current.copy(color = Primary100),
                 modifier = Modifier.weight(1f)
@@ -99,11 +98,10 @@ private fun TradeCreationFields(currentTrade: Trade, viewModel: ChartViewModel) 
                 label = {
                     Text(stringResource(R.string.price_field_label), color = Primary100)
                 },
-                value = currentTrade.price?.absoluteValue?.toString() ?: "",
+                value = currentTrade.price,
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 onValueChange = {
-                    val input = it.toDoubleOrNull()
-                    if (input == null || input >= 0) viewModel.updateTradePrice(input)
+                    viewModel.updateTradePrice(it)
                 },
                 textStyle = LocalTextStyle.current.copy(color = Primary100),
                 modifier = Modifier.weight(2f)
@@ -179,11 +177,13 @@ private fun TradeCreationButtons(viewModel: ChartViewModel) {
     val currentTrade by viewModel.currentTrade.collectAsState()
 
     Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+        val amount = currentTrade.amount.toIntOrNull()
+        val price = currentTrade.price.toIntOrNull()
         Button(
-            enabled = currentTrade.amount != null &&
-                    currentTrade.amount!! > 0 &&
-                    currentTrade.price != null &&
-                    currentTrade.price!! > 0,
+            enabled = amount != null &&
+                    amount > 0 &&
+                    price != null &&
+                    price > 0,
             onClick = { viewModel.submitTrade() }, colors = ButtonColors(
                 containerColor = Primary100,
                 contentColor = Primary900,
@@ -195,4 +195,3 @@ private fun TradeCreationButtons(viewModel: ChartViewModel) {
         }
     }
 }
-
