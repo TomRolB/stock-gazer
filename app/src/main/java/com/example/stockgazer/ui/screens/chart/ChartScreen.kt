@@ -31,7 +31,6 @@ import com.example.stockgazer.ui.theme.NumbersHorizontalSpacing
 import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.SectionSpacing
 import com.example.stockgazer.util.asPercentageString
-import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 
 @Composable
 fun ChartScreen(symbol: String) {
@@ -41,7 +40,7 @@ fun ChartScreen(symbol: String) {
     val viewModel = hiltViewModel<ChartViewModel>()
     val isFavorite by viewModel.isFavorite.collectAsState()
     val latestPrice by viewModel.latestPrice.collectAsState()
-    val companyName by viewModel.companyName.collectAsState()
+    val companyInfo by viewModel.companyInfo.collectAsState()
 
     viewModel.load(symbol)
 
@@ -69,7 +68,7 @@ fun ChartScreen(symbol: String) {
                 )
             }
         }
-        Text(companyName, color = Primary100)
+        Text(companyInfo.name, color = Primary100)
 
         Spacer(modifier = Modifier.height(SectionSpacing))
         Row(horizontalArrangement = Arrangement.spacedBy(NumbersHorizontalSpacing)) {

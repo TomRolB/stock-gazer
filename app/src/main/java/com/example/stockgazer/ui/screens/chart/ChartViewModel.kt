@@ -1,12 +1,17 @@
 package com.example.stockgazer.ui.screens.chart
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.stockgazer.data.datasource.AlpacaBarDatasource
 import com.example.stockgazer.data.datasource.AlpacaDetailsDatasource
 import com.example.stockgazer.data.response.SnapshotResponse
+import com.example.stockgazer.data.storage.addFavoriteSymbol
+import com.example.stockgazer.data.storage.isSymbolFavorite
+import com.example.stockgazer.data.storage.removeFavoriteSymbol
 import com.example.stockgazer.util.ResourceZoneIdProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -19,15 +24,16 @@ class ChartViewModel @Inject constructor(
     private val alpacaBarDatasource: AlpacaBarDatasource,
     private val alpacaDetailsDatasource: AlpacaDetailsDatasource,
     val zoneIdProvider: ResourceZoneIdProvider,
-) : ViewModel() {
+    @ApplicationContext private val context: Context,
+    ) : ViewModel() {
     private var _isFavorite = MutableStateFlow(false)
     val isFavorite = _isFavorite.asStateFlow()
 
     private var _showTradeCreationModal = MutableStateFlow(false)
     val showTradeCreationModal = _showTradeCreationModal.asStateFlow()
 
-    private var _companyName = MutableStateFlow("")
-    val companyName = _companyName.asStateFlow()
+    private var _companyInfo = MutableStateFlow(CompanyInfo("", ""))
+    val companyInfo = _companyInfo.asStateFlow()
 
     private var _latestPrice = MutableStateFlow(
         LatestPrice(
@@ -54,13 +60,14 @@ class ChartViewModel @Inject constructor(
         loadDetails(symbol)
         loadSnapshot(symbol)
         loadBars(symbol)
+        loadIsFavoriteFromDataStore(symbol)
     }
 
     private fun loadDetails(symbol: String) {
         alpacaDetailsDatasource.getStockOverview(symbol,
             onSuccess = {
                 viewModelScope.launch {
-                    _companyName.emit(it.name)
+                    _companyInfo.emit(CompanyInfo(it.name, symbol))
                 }
             },
             onFail = {},
@@ -98,7 +105,23 @@ class ChartViewModel @Inject constructor(
 
     fun toggleFavorite() {
         viewModelScope.launch {
-            _isFavorite.emit(!_isFavorite.value)
+            val isNowFavorite = !_isFavorite.value
+            val symbol = _companyInfo.value.symbol
+
+            if (isNowFavorite)
+                addFavoriteSymbol(context, symbol)
+            else
+                removeFavoriteSymbol(context, symbol)
+
+            loadIsFavoriteFromDataStore(symbol)
+        }
+    }
+
+    private fun loadIsFavoriteFromDataStore(symbol: String) {
+        viewModelScope.launch {
+            isSymbolFavorite(context, symbol).collect {
+                _isFavorite.emit(it)
+            }
         }
     }
 

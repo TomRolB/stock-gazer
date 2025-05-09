@@ -37,7 +37,13 @@ data class Bar (
 
 data class SnapshotResponse (
     val dailyBar: Bar,
-)
+) {
+    val dailyPercentChange: Double
+        get() = (dailyBar.c / dailyBar.o - 1) * 100
+
+    val currentPrice: Double
+        get() = dailyBar.c
+}
 
 data class DetailsResponse (
     val name: String

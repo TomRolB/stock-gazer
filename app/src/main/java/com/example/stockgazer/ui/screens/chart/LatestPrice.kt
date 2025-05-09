@@ -11,8 +11,8 @@ class LatestPrice(
     companion object {
         fun fromSnapshotResponse(snapshotResponse: SnapshotResponse) =
             LatestPrice(
-                snapshotResponse.dailyBar.c,
-                (snapshotResponse.dailyBar.c / snapshotResponse.dailyBar.o - 1) * 100
+                snapshotResponse.currentPrice,
+                snapshotResponse.dailyPercentChange
             )
     }
 }

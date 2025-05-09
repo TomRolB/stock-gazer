@@ -82,4 +82,7 @@ dependencies {
     //noinspection UseTomlInstead
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation(libs.converter.gson)
+
+    // DataStore
+    implementation(libs.datastore.preferences)
 }
