@@ -1,6 +1,7 @@
 package com.example.stockgazer.ui.screens.home
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -25,6 +27,7 @@ import com.example.stockgazer.ui.components.ActiveStockCardSection
 import com.example.stockgazer.ui.components.StockTile
 import com.example.stockgazer.ui.components.text.Headline
 import com.example.stockgazer.ui.navigation.StockGazerScreen
+import com.example.stockgazer.ui.theme.CircularProgressIndicatorSize
 import com.example.stockgazer.ui.theme.DividerHorizontalPadding
 import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.HeadlineToIconSpacing
@@ -35,6 +38,14 @@ import com.example.stockgazer.ui.theme.SectionSpacing
 fun HomeScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<HomeViewModel>()
     val mostActiveStock: List<ActiveStock> by viewModel.mostActiveStock.collectAsStateWithLifecycle()
+    val homeLoadState by viewModel.homeLoadState.collectAsState()
+
+    if (!homeLoadState.all()) {
+        Box(contentAlignment = Alignment.Center) {
+            CircularProgressIndicator(modifier = Modifier.size(CircularProgressIndicatorSize))
+        }
+        return
+    }
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(ElementSpacing),

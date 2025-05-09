@@ -56,6 +56,9 @@ class ChartViewModel @Inject constructor(
     private var _trades = MutableStateFlow(emptyList<Trade>())
     val trades = _trades.asStateFlow()
 
+    private var _Chart_loadState = MutableStateFlow(ChartLoadState())
+    val loadState = _Chart_loadState.asStateFlow()
+
     fun load(symbol: String) {
         loadDetails(symbol)
         loadSnapshot(symbol)
@@ -68,6 +71,7 @@ class ChartViewModel @Inject constructor(
             onSuccess = {
                 viewModelScope.launch {
                     _companyInfo.emit(CompanyInfo(it.name, symbol))
+                    _Chart_loadState.emit(_Chart_loadState.value.copy(detailsLoaded = true))
                 }
             },
             onFail = {},
@@ -86,6 +90,8 @@ class ChartViewModel @Inject constructor(
                         _currentTrade.emit(_currentTrade.value.copy(price = latestPriceFetched.value.toString()))
                     }
                     _latestPrice.emit(latestPriceFetched)
+
+                    _Chart_loadState.emit(_Chart_loadState.value.copy(snapshotLoaded = true))
                 }
             }, onFail = {},
             loadingFinished = {}
@@ -97,6 +103,7 @@ class ChartViewModel @Inject constructor(
             onSuccess = {
                 viewModelScope.launch {
                     _bars.emit(BarPeriod.fromBarResponse(it))
+                    _Chart_loadState.emit(_Chart_loadState.value.copy(barsLoaded = true))
                 }
             },
             onFail = {},
@@ -121,6 +128,7 @@ class ChartViewModel @Inject constructor(
         viewModelScope.launch {
             isSymbolFavorite(context, symbol).collect {
                 _isFavorite.emit(it)
+                _Chart_loadState.emit(_Chart_loadState.value.copy(isFavoriteFromDataStoreLoaded = true))
             }
         }
     }

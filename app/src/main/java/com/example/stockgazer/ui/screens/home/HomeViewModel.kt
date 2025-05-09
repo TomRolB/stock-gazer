@@ -34,6 +34,9 @@ class HomeViewModel @Inject constructor(
     private var _mostActiveStock = MutableStateFlow(listOf<ActiveStock>())
     val mostActiveStock = _mostActiveStock.asStateFlow()
 
+    private var _homeLoadState = MutableStateFlow(HomeLoadState())
+    val homeLoadState = _homeLoadState.asStateFlow()
+
     init {
         loadFavorites()
         loadTopMarketMovers()
@@ -67,6 +70,7 @@ class HomeViewModel @Inject constructor(
                     )
                 }
             )
+            _homeLoadState.emit(_homeLoadState.value.copy(favoritesLoaded = true))
         }
     }
 
@@ -100,6 +104,7 @@ class HomeViewModel @Inject constructor(
             onSuccess = {
                 viewModelScope.launch {
                     _topMarketMovers.emit(it)
+                    _homeLoadState.emit(_homeLoadState.value.copy(topMarketMoversLoaded = true))
                 }
             },
             onFail = {},
@@ -125,6 +130,7 @@ class HomeViewModel @Inject constructor(
                     _mostActiveStock.emit(
                         ActiveStock.listFrom(mostActiveStockResponse, snapshots)
                     )
+                    _homeLoadState.emit(_homeLoadState.value.copy(mostActiveStockLoaded = true))
                 }
             },
             onFail = {},

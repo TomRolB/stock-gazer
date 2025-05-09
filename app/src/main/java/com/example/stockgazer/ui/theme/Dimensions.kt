@@ -32,6 +32,7 @@ val IconMedium = 20.dp
 val IconBig = 32.dp
 
 val LogoImageSize = 42.dp
+val CircularProgressIndicatorSize = 64.dp
 
 val CardBorderRadius = 16.dp
 val StockCardBorderRadius = 8.dp
