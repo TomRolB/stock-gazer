@@ -25,4 +25,6 @@
     <string name="date_picker_title">Select date</string>
     <string name="date_picker_confirm_button_text">OK</string>
     <string name="trade_submit_button_text">Submit</string>
+    <string name="database_name">stockgazer_database</string>
+    <string name="empty_followed_stock_message">You have no followed stocks. Start by pressing the star on top of the Chart of any stock of your interest</string>
 </resources>

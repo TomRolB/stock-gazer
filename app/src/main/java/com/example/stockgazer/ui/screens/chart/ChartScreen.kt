@@ -1,5 +1,7 @@
 package com.example.stockgazer.ui.screens.chart
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,18 +39,20 @@ import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.SectionSpacing
 import com.example.stockgazer.util.asPercentageString
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @Composable
 fun ChartScreen(symbol: String) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
 
-    val viewModel = hiltViewModel<ChartViewModel>()
-    val isFavorite by viewModel.isFavorite.collectAsState()
-    val latestPrice by viewModel.latestPrice.collectAsState()
-    val companyInfo by viewModel.companyInfo.collectAsState()
-    val loadState by viewModel.loadState.collectAsState()
+    val chartViewModel = hiltViewModel<ChartViewModel>()
 
-    viewModel.load(symbol)
+    val isFavorite by chartViewModel.isFavorite.collectAsState(false)
+    val latestPrice by chartViewModel.latestPrice.collectAsState()
+    val companyInfo by chartViewModel.companyInfo.collectAsState()
+    val loadState by chartViewModel.loadState.collectAsState()
+
+    chartViewModel.load(symbol)
 
     if (!loadState.all()) {
         Box(contentAlignment = Alignment.Center) {
@@ -63,7 +67,7 @@ fun ChartScreen(symbol: String) {
             .fillMaxHeight(),
     ) {
 
-        Header(symbol, viewModel, isFavorite, companyInfo)
+        Header(symbol, chartViewModel, isFavorite, companyInfo)
 
         Spacer(modifier = Modifier.height(SectionSpacing))
         Row(horizontalArrangement = Arrangement.spacedBy(NumbersHorizontalSpacing)) {
@@ -98,7 +102,7 @@ private fun Header(
     ) {
         Headline(symbol)
         IconButton(
-            onClick = { viewModel.toggleFavorite() }
+            onClick = { viewModel.toggleFavorite(isFavorite) }
         ) {
             Icon(
                 painter = painterResource(

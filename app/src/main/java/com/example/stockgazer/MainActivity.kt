@@ -15,12 +15,15 @@ import com.example.stockgazer.ui.navigation.NavHostComposable
 import com.example.stockgazer.ui.screens.home.HomeScreen
 import com.example.stockgazer.ui.theme.Primary900
 import com.example.stockgazer.ui.theme.StockGazerTheme
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
+
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
@@ -30,6 +33,8 @@ class MainActivity : FragmentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = { BottomBar(navController::navigate) },
                 ) { innerPadding ->
+
+
                     NavHostComposable(innerPadding, navController)
                 }
             }

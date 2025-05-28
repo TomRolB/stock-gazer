@@ -2,13 +2,13 @@ package com.example.stockgazer.ui.screens.chart
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.example.stockgazer.data.datasource.AlpacaBarDatasource
 import com.example.stockgazer.data.datasource.AlpacaDetailsDatasource
+import com.example.stockgazer.data.entities.FavoriteStock
 import com.example.stockgazer.data.response.SnapshotResponse
-import com.example.stockgazer.data.storage.addFavoriteSymbol
-import com.example.stockgazer.data.storage.isSymbolFavorite
-import com.example.stockgazer.data.storage.removeFavoriteSymbol
+import com.example.stockgazer.storage.StockGazerDatabase
 import com.example.stockgazer.util.ResourceZoneIdProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -26,8 +26,9 @@ class ChartViewModel @Inject constructor(
     val zoneIdProvider: ResourceZoneIdProvider,
     @ApplicationContext private val context: Context,
     ) : ViewModel() {
-    private var _isFavorite = MutableStateFlow(false)
-    val isFavorite = _isFavorite.asStateFlow()
+    private val database = StockGazerDatabase.getDatabase(context)
+
+    val isFavorite = database.favoriteStockDao().isStockFavorite("MSFT").asFlow()
 
     private var _showTradeCreationModal = MutableStateFlow(false)
     val showTradeCreationModal = _showTradeCreationModal.asStateFlow()
@@ -56,14 +57,13 @@ class ChartViewModel @Inject constructor(
     private var _trades = MutableStateFlow(emptyList<Trade>())
     val trades = _trades.asStateFlow()
 
-    private var _Chart_loadState = MutableStateFlow(ChartLoadState())
-    val loadState = _Chart_loadState.asStateFlow()
+    private var _chartLoadState = MutableStateFlow(ChartLoadState())
+    val loadState = _chartLoadState.asStateFlow()
 
     fun load(symbol: String) {
         loadDetails(symbol)
         loadSnapshot(symbol)
         loadBars(symbol)
-        loadIsFavoriteFromDataStore(symbol)
     }
 
     private fun loadDetails(symbol: String) {
@@ -71,7 +71,7 @@ class ChartViewModel @Inject constructor(
             onSuccess = {
                 viewModelScope.launch {
                     _companyInfo.emit(CompanyInfo(it.name, symbol))
-                    _Chart_loadState.emit(_Chart_loadState.value.copy(detailsLoaded = true))
+                    _chartLoadState.emit(_chartLoadState.value.copy(detailsLoaded = true))
                 }
             },
             onFail = {},
@@ -91,7 +91,7 @@ class ChartViewModel @Inject constructor(
                     }
                     _latestPrice.emit(latestPriceFetched)
 
-                    _Chart_loadState.emit(_Chart_loadState.value.copy(snapshotLoaded = true))
+                    _chartLoadState.emit(_chartLoadState.value.copy(snapshotLoaded = true))
                 }
             }, onFail = {},
             loadingFinished = {}
@@ -103,33 +103,21 @@ class ChartViewModel @Inject constructor(
             onSuccess = {
                 viewModelScope.launch {
                     _bars.emit(BarPeriod.fromBarResponse(it))
-                    _Chart_loadState.emit(_Chart_loadState.value.copy(barsLoaded = true))
+                    _chartLoadState.emit(_chartLoadState.value.copy(barsLoaded = true))
                 }
             },
             onFail = {},
             loadingFinished = {})
     }
 
-    fun toggleFavorite() {
+    fun toggleFavorite(isFavorite: Boolean) {
         viewModelScope.launch {
-            val isNowFavorite = !_isFavorite.value
             val symbol = _companyInfo.value.symbol
 
-            if (isNowFavorite)
-                addFavoriteSymbol(context, symbol)
+            if (isFavorite)
+                database.favoriteStockDao().deleteFavoriteStock(symbol)
             else
-                removeFavoriteSymbol(context, symbol)
-
-            loadIsFavoriteFromDataStore(symbol)
-        }
-    }
-
-    private fun loadIsFavoriteFromDataStore(symbol: String) {
-        viewModelScope.launch {
-            isSymbolFavorite(context, symbol).collect {
-                _isFavorite.emit(it)
-                _Chart_loadState.emit(_Chart_loadState.value.copy(isFavoriteFromDataStoreLoaded = true))
-            }
+                database.favoriteStockDao().insert(FavoriteStock(symbol))
         }
     }
 

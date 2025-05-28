@@ -5,5 +5,6 @@ data class HomeLoadState(
     val topMarketMoversLoaded: Boolean = false,
     val mostActiveStockLoaded: Boolean = false,
 ) {
-    fun all() = favoritesLoaded && topMarketMoversLoaded && mostActiveStockLoaded
+    fun all() =
+        favoritesLoaded && topMarketMoversLoaded && mostActiveStockLoaded
 }

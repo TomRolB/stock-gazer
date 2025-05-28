@@ -1,5 +1,7 @@
 package com.example.stockgazer.ui.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -18,14 +20,17 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.text.Headline
 import com.example.stockgazer.ui.screens.chart.ChartViewModel
 import com.example.stockgazer.ui.screens.chart.LatestPrice
+import com.example.stockgazer.ui.screens.shared.UserViewModel
 import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.Primary100
 import java.time.format.DateTimeFormatter
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @Composable
 fun YourTradesSection(latestPrice: LatestPrice) {
     val viewModel = hiltViewModel<ChartViewModel>()
@@ -36,6 +41,9 @@ fun YourTradesSection(latestPrice: LatestPrice) {
         label = "Icon Rotation"
     )
 
+    val userViewModel = hiltViewModel<UserViewModel>()
+    val userData = userViewModel.userData.collectAsStateWithLifecycle()
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -44,6 +52,9 @@ fun YourTradesSection(latestPrice: LatestPrice) {
         Headline(stringResource(R.string.your_trades_title))
         IconButton(
             onClick = {
+                if (userData.value == null)
+                    userViewModel.launchCredentialManager()
+
                 viewModel.toggleAddingTrade()
             }
         ) {

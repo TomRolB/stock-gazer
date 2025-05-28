@@ -41,6 +41,8 @@ class AlpacaBarDatasource @Inject constructor(
         onFail: () -> Unit,
         loadingFinished: () -> Unit
     ) {
+        require(symbols.isNotEmpty()) { "Cannot fetch snapshots because the provided symbol list is empty" }
+
         val call: Call<Map<String, SnapshotResponse>> = datasource.getSnapshotFromSymbol(
             alpacaApiKeyId,
             alpacaApiSecretKey,

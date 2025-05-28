@@ -1,7 +1,9 @@
 package com.example.stockgazer.ui.screens.home
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.example.stockgazer.data.datasource.AlpacaBarDatasource
 import com.example.stockgazer.data.datasource.AlpacaDetailsDatasource
@@ -10,8 +12,9 @@ import com.example.stockgazer.data.response.DetailsResponse
 import com.example.stockgazer.data.response.MostActiveStockResponse
 import com.example.stockgazer.data.response.SnapshotResponse
 import com.example.stockgazer.data.response.TopMarketMoversResponse
-import com.example.stockgazer.data.storage.getFavoriteSymbols
 import com.example.stockgazer.domain.model.FollowedStockData
+import com.example.stockgazer.storage.StockGazerDatabase
+import com.example.stockgazer.ui.screens.shared.TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,8 +29,13 @@ class HomeViewModel @Inject constructor(
     private val detailsDatasource: AlpacaDetailsDatasource,
     @ApplicationContext private val context: Context,
 ) : ViewModel() {
+    private val database = StockGazerDatabase.getDatabase(context)
+
     private var _favorites = MutableStateFlow(listOf<FollowedStockData>())
     val favorites = _favorites.asStateFlow()
+
+    val favoriteSymbols = database.favoriteStockDao().getFavoriteStocks().asFlow()
+
 
     private var _topMarketMovers = MutableStateFlow(TopMarketMoversResponse())
 
@@ -45,12 +53,22 @@ class HomeViewModel @Inject constructor(
 
     private fun loadFavorites() {
         viewModelScope.launch {
-            getFavoriteSymbols(context).collect { symbols ->
+            favoriteSymbols.collect { symbols ->
+                if (symbols.isEmpty()) {
+                    _homeLoadState.emit(_homeLoadState.value.copy(favoritesLoaded = true))
+                    return@collect
+                }
+
                 alpacaBarDatasource.getSnapshotFromSymbols(
                     symbols.toList(),
-                    onSuccess = { setFavorites(it) },
-                    onFail = {},
-                    loadingFinished = {},
+                    onSuccess = {
+                        setFavorites(it)
+                    },
+                    onFail = {
+                        Log.e(TAG, "Could not collect favorite symbols from database")
+                    },
+                    loadingFinished = {
+                    },
                 )
             }
         }

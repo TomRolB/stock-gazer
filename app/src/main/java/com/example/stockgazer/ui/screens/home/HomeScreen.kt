@@ -1,4 +1,5 @@
 package com.example.stockgazer.ui.screens.home
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -6,12 +7,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,11 +33,14 @@ import com.example.stockgazer.ui.components.ActiveStockCardSection
 import com.example.stockgazer.ui.components.StockTile
 import com.example.stockgazer.ui.components.text.Headline
 import com.example.stockgazer.ui.navigation.StockGazerScreen
+import com.example.stockgazer.ui.theme.CardBorderRadius
 import com.example.stockgazer.ui.theme.CircularProgressIndicatorSize
 import com.example.stockgazer.ui.theme.DividerHorizontalPadding
 import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.HeadlineToIconSpacing
+import com.example.stockgazer.ui.theme.PaddingMedium
 import com.example.stockgazer.ui.theme.Primary100
+import com.example.stockgazer.ui.theme.Primary800
 import com.example.stockgazer.ui.theme.SectionSpacing
 
 @Composable
@@ -49,8 +58,7 @@ fun HomeScreen(navController: NavHostController) {
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(ElementSpacing),
-        modifier = Modifier
-            .fillMaxHeight(),
+        modifier = Modifier.fillMaxHeight(),
     ) {
         item {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -94,19 +102,33 @@ private fun FollowListSection(
     val followList by viewModel.favorites.collectAsState()
     var count = 0
 
+    if (followList.isEmpty()) {
+        Card(
+            colors = CardDefaults.cardColors(containerColor = Primary800),
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(CardBorderRadius),
+        ) {
+            Box(
+                modifier = Modifier.padding(PaddingMedium)
+            ) {
+                Text(stringResource(R.string.empty_followed_stock_message), color = Primary100)
+            }
+        }
+
+        return
+    }
+
     Column {
         followList.forEach { stock ->
             viewModel.loadCompanyName(stock.symbol)
 
-            StockTile(
-                symbol = stock.symbol,
+            StockTile(symbol = stock.symbol,
                 name = stock.name,
                 price = stock.price,
                 variation = stock.percentChange,
                 modifier = Modifier.clickable {
-                    navController.navigate("${StockGazerScreen.Chart.name}/${stock.symbol}" )
-                }
-            )
+                    navController.navigate("${StockGazerScreen.Chart.name}/${stock.symbol}")
+                })
             if (count < followList.size) HorizontalDivider(
                 color = Primary100.copy(alpha = 0.5f),
                 modifier = Modifier.padding(horizontal = DividerHorizontalPadding)
