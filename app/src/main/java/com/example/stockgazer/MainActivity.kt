@@ -10,6 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.compose.rememberNavController
+import com.example.stockgazer.ui.auth.BiometricAuthContext
+import com.example.stockgazer.ui.auth.BiometricError
+import com.example.stockgazer.ui.auth.BiometricErrorScreen
+import com.example.stockgazer.ui.auth.BiometricAvailable
 import com.example.stockgazer.ui.navigation.BottomBar
 import com.example.stockgazer.ui.navigation.NavHostComposable
 import com.example.stockgazer.ui.screens.home.HomeScreen
@@ -33,9 +37,14 @@ class MainActivity : FragmentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = { BottomBar(navController::navigate) },
                 ) { innerPadding ->
-
-
-                    NavHostComposable(innerPadding, navController)
+                    BiometricAuthContext { biometricState ->
+                        when (biometricState) {
+                            is BiometricError -> BiometricErrorScreen(
+                                innerPadding, biometricState.errorTitle, biometricState.errorMessage
+                            )
+                            BiometricAvailable -> NavHostComposable(innerPadding, navController)
+                        }
+                    }
                 }
             }
         }

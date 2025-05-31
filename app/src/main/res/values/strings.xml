@@ -27,4 +27,20 @@
     <string name="trade_submit_button_text">Submit</string>
     <string name="database_name">stockgazer_database</string>
     <string name="empty_followed_stock_message">You have no followed stocks. Start by pressing the star on top of the Chart of any stock of your interest</string>
+    <string name="auth_error_message">There was an error in the authentication</string>
+    <string name="auth_fail_message">The authentication failed, try again</string>
+    <string name="biometric_success_title">Authentication Needed</string>
+    <string name="biometric_success_description">Please use your fingerprint to sign in.</string>
+    <string name="biometric_error_no_hardware_title">No Biometrics Found</string>
+    <string name="biometric_error_no_hardware_description">Your device does not have the necessary hardware for biometric authentication.</string>
+    <string name="biometric_error_hardware_unavailable_title">Biometrics Unavailable</string>
+    <string name="biometric_error_hardware_unavailable_description">Biometric authentication is currently not available.</string>
+    <string name="biometric_error_security_update_required_title">Security Update Required</string>
+    <string name="biometric_error_security_update_required_description">Biometric authentication requires a security update for your device. Please update your system software.</string>
+    <string name="biometric_error_unsupported_title">Unsupported Android Version</string>
+    <string name="biometric_error_unsupported_description">Biometric authentication is not supported on this Android version.</string>
+    <string name="biometric_status_unknown_title">Unknown Biometric Status</string>
+    <string name="biometric_status_unknown_description">We couldn\'t determine the status of biometric authentication.</string>
+    <string name="biometric_error_none_enrolled_title">No Biometrics Enrolled</string>
+    <string name="biometric_error_none_enrolled_description">You need to enroll a fingerprint in your device settings to use biometric authentication.</string>
 </resources>

@@ -20,8 +20,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
-import com.example.stockgazer.R
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.stockgazer.ui.screens.shared.BiometricViewModel
 import com.example.stockgazer.ui.theme.MontserratFontFamily
 import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.Primary900
@@ -31,6 +32,12 @@ import com.example.stockgazer.ui.theme.Primary900
 fun BottomBar(
     onNavigate: (String) -> Unit,
 ) {
+    val viewModel = hiltViewModel<BiometricViewModel>()
+    val isAuthenticated by viewModel.isAuthenticated.collectAsStateWithLifecycle()
+
+    if (!isAuthenticated)
+        return
+
     val homeTab = TabBarItem(
         title = StockGazerScreen.Home.name,
         selectedIcon = Icons.Filled.Home,

@@ -103,4 +103,7 @@ dependencies {
     kapt(libs.androidx.room.compiler)
 
     implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    // Biometric auth
+    implementation(libs.androidx.biometric)
 }

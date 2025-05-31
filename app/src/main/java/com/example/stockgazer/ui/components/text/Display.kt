@@ -11,22 +11,19 @@ import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.StockGazerTheme
 
 @Composable
-fun Headline(
-    text: String,
-    fontWeight: FontWeight = FontWeight.Bold
-) {
+fun Display(text: String) {
     Text(
         text,
-        style = MaterialTheme.typography.headlineLarge,
+        style = MaterialTheme.typography.displayLarge,
         color = Primary100,
-        fontWeight = fontWeight
+        fontWeight = FontWeight.Bold
     )
 }
 
 @Composable
 @Preview(showBackground = false)
-fun HeadlinePreview() {
+fun DisplayPreview() {
     StockGazerTheme {
-        Headline(stringResource(R.string.follow_list_title))
+        Display(stringResource(R.string.follow_list_title))
     }
 }
