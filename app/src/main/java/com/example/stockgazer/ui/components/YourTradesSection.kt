@@ -35,7 +35,7 @@ import java.time.format.DateTimeFormatter
 fun YourTradesSection(latestPrice: LatestPrice) {
     val viewModel = hiltViewModel<ChartViewModel>()
     val showTradeCreationModal = viewModel.showTradeCreationModal.collectAsState()
-    val trades = viewModel.trades.collectAsState()
+    val trades = viewModel.trades.collectAsState(emptyList())
     val rotationAngle by animateFloatAsState(
         targetValue = if (showTradeCreationModal.value) 45f else 0f,
         label = "Icon Rotation"
@@ -82,8 +82,8 @@ fun YourTradesSection(latestPrice: LatestPrice) {
             type = it.type,
             amount = it.amount.toInt(),
             price = price,
-            date = it.date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) ?: "",
-            time = it.time.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "",
+            date = it.datetime.toLocalDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) ?: "",
+            time = it.datetime.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) ?: "",
             percentChange = (latestPrice.value / price - 1) * 100
         )
     }

@@ -9,10 +9,10 @@ import androidx.room.Query
 @Dao
 interface TradeDao {
     @Insert
-    suspend fun insert(favoriteStock: FavoriteStock)
+    suspend fun insert(trade: Trade)
 
-    @Query("SELECT * FROM trade")
-    fun getAllTrades(): LiveData<List<Trade>>
+    @Query("SELECT * FROM trade WHERE symbol = :symbol")
+    fun getAllTradesOfSymbol(symbol: String): LiveData<List<Trade>>
 }
 
 @Dao

@@ -15,6 +15,7 @@ data class FavoriteStock(
 @Entity
 @TypeConverters(Converters::class)
 data class Trade(
+    val symbol: String,
     val type: TradeType,
     val amount: String,
     val price: String,

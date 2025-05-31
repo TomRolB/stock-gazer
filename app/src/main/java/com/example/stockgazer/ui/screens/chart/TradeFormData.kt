@@ -5,7 +5,7 @@ import com.example.stockgazer.ui.screens.chart.TradeType.Sell
 import java.time.LocalDate
 import java.time.LocalTime
 
-data class Trade(
+data class TradeFormData(
     val type: TradeType = Buy,
     val amount: String = "1",
     val price: String = "",

@@ -9,10 +9,7 @@ import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import com.example.stockgazer.R
-import com.example.stockgazer.data.repository.FakeStockRepository
 import com.example.stockgazer.ui.navigation.StockGazerScreen
 import com.example.stockgazer.ui.screens.home.ActiveStock
 import com.example.stockgazer.ui.theme.ActiveStockCardHeight
@@ -23,7 +20,6 @@ import com.example.stockgazer.ui.theme.ElementSpacing
 
 @Composable
 fun ActiveStockCardSection(navController: NavController, mostActiveStock: List<ActiveStock>) {
-    FakeStockRepository()
 
     LazyHorizontalGrid(
         horizontalArrangement = Arrangement.spacedBy(ElementSpacing),
@@ -32,7 +28,6 @@ fun ActiveStockCardSection(navController: NavController, mostActiveStock: List<A
         modifier = Modifier.height(ActiveStockCardSectionHeight)
     ) {
         items(items = mostActiveStock) { stock ->
-            val logoUrl = stringResource(R.string.logos_url) + "${stock.symbol}.png"
             ActiveStockCard(
                 isGain = stock.percentChange > 0,
                 symbol = stock.symbol,

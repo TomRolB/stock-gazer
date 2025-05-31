@@ -84,9 +84,6 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation(libs.converter.gson)
 
-    // DataStore
-    implementation(libs.datastore.preferences)
-
     // Import the Firebase BoM
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
