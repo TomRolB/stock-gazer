@@ -26,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         FirebaseApp.initializeApp(this)
 
         enableEdgeToEdge()

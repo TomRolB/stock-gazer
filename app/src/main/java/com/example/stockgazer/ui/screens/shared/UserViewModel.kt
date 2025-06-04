@@ -41,7 +41,7 @@ class UserViewModel @Inject constructor(
     private val _userData = MutableStateFlow(auth.currentUser)
     val userData = _userData.asStateFlow()
 
-    fun launchCredentialManager() {
+    fun launchCredentialManager(localContext: Context) {
         // Instantiate a Google sign-in request
         val googleIdOption = GetGoogleIdOption.Builder()
             // Your server's client ID, not your Android client ID.
@@ -59,7 +59,7 @@ class UserViewModel @Inject constructor(
             try {
                 // Launch Credential Manager UI
                 val result = credentialManager.getCredential(
-                    context = context,
+                    context = localContext,
                     request = request
                 )
 

@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,6 +45,8 @@ fun YourTradesSection(latestPrice: LatestPrice) {
     val userViewModel = hiltViewModel<UserViewModel>()
     val userData = userViewModel.userData.collectAsStateWithLifecycle()
 
+    val context = LocalContext.current
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -53,7 +56,7 @@ fun YourTradesSection(latestPrice: LatestPrice) {
         IconButton(
             onClick = {
                 if (userData.value == null)
-                    userViewModel.launchCredentialManager()
+                    userViewModel.launchCredentialManager(context)
 
                 viewModel.toggleAddingTrade()
             }
