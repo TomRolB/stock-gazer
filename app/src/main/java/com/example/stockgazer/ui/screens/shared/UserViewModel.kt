@@ -33,9 +33,10 @@ const val TAG = "UserViewModel"
 @HiltViewModel
 class UserViewModel @Inject constructor(
     @ApplicationContext val context: Context,
-    private val auth: FirebaseAuth,
-    private val credentialManager: CredentialManager
 ): ViewModel() {
+
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val credentialManager = CredentialManager.create(context)
 
     private val _userData = MutableStateFlow(auth.currentUser)
     val userData = _userData.asStateFlow()

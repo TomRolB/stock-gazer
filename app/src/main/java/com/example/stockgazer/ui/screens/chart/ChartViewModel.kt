@@ -36,8 +36,8 @@ class ChartViewModel @Inject constructor(
     private val alpacaDetailsDatasource: AlpacaDetailsDatasource,
     val zoneIdProvider: ResourceZoneIdProvider,
     @ApplicationContext private val context: Context,
-    private val auth: FirebaseAuth
 ) : ViewModel() {
+    private val auth = FirebaseAuth.getInstance()
     private val _userIdFlow = MutableStateFlow(auth.currentUser?.uid)
 
     init {

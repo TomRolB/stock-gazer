@@ -32,11 +32,17 @@ class HomeViewModel @Inject constructor(
     private val alpacaBarDatasource: AlpacaBarDatasource,
     private val detailsDatasource: AlpacaDetailsDatasource,
     @ApplicationContext private val context: Context,
-    auth: FirebaseAuth
 ) : ViewModel() {
-    private val database = StockGazerDatabase.getDatabase(context)
-
+    private val auth = FirebaseAuth.getInstance()
     private val _userIdFlow = MutableStateFlow(auth.currentUser?.uid)
+
+    init {
+        auth.addAuthStateListener { firebaseAuth ->
+            _userIdFlow.value = firebaseAuth.currentUser?.uid
+        }
+    }
+
+    private val database = StockGazerDatabase.getDatabase(context)
 
     private var _favorites = MutableStateFlow(listOf<FollowedStockData>())
     val favorites = _favorites.asStateFlow()
@@ -59,9 +65,6 @@ class HomeViewModel @Inject constructor(
         loadFavorites()
         loadTopMarketMovers()
         loadMostActiveStock()
-        auth.addAuthStateListener { firebaseAuth ->
-            _userIdFlow.value = firebaseAuth.currentUser?.uid
-        }
     }
 
     private fun loadFavorites() {
