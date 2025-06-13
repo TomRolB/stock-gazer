@@ -41,8 +41,6 @@ import com.example.stockgazer.ui.theme.InputSpacing
 import com.example.stockgazer.ui.theme.PaddingMedium
 import com.example.stockgazer.ui.theme.Primary300
 import com.example.stockgazer.ui.theme.Primary700
-import com.example.stockgazer.ui.theme.Primary800
-import com.example.stockgazer.ui.theme.Primary900
 
 @Composable
 fun TradeCreationCard() {
