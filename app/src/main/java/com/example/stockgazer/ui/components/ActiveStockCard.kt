@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButtonDefaults.BorderWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,12 +24,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.images.Logo
 import com.example.stockgazer.ui.theme.ElementSpacing
-import com.example.stockgazer.ui.theme.Gain300
 import com.example.stockgazer.ui.theme.IconSmall
 import com.example.stockgazer.ui.theme.IconToTextSpacingSmall
-import com.example.stockgazer.ui.theme.Loss300
 import com.example.stockgazer.ui.theme.PaddingSmall
-import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.Primary900
 import com.example.stockgazer.ui.theme.StockCardBorderRadius
 import com.example.stockgazer.ui.theme.StockGazerTheme
@@ -48,14 +46,14 @@ fun ActiveStockCard(
         modifier = Modifier
             .border(
                 width = BorderWidth,
-                color = Primary100,
+                color = MaterialTheme.colorScheme.primary,
                 shape = RoundedCornerShape(StockCardBorderRadius)
             )
             .then(modifier)
     ) {
         Row(
             modifier = Modifier
-                .background(Primary900)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(all = PaddingSmall),
             horizontalArrangement = Arrangement.spacedBy(ElementSpacing),
             verticalAlignment = Alignment.CenterVertically
@@ -68,12 +66,12 @@ fun ActiveStockCard(
             Column {
                 Text(
                     symbol,
-                    color = Primary100,
+                    color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
                     variation.asPercentageString(),
-                    color = if (isGain) Gain300 else Loss300,
+                    color = if (isGain) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.tertiaryContainer,
                     textAlign = TextAlign.Right,
                     fontWeight = FontWeight.Bold
                 )
@@ -97,14 +95,14 @@ private fun Trades(trades: Long) {
                 id = R.drawable.trades
             ),
             contentDescription = stringResource(R.string.trade_icon_content_description),
-            tint = Primary100,
+            tint = MaterialTheme.colorScheme.primary,
             modifier = Modifier.size(IconSmall)
         )
 
         Text(
             "%,d".format(trades),
             textAlign = TextAlign.Left,
-            color = Primary100,
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }
@@ -120,14 +118,14 @@ private fun Volume(volume: Long) {
                 id = R.drawable.volume
             ),
             contentDescription = stringResource(R.string.volume_icon_content_description),
-            tint = Primary100,
+            tint = MaterialTheme.colorScheme.primary,
             modifier = Modifier.size(size = IconSmall)
         )
 
         Text(
             "%,d".format(volume),
             textAlign = TextAlign.Left,
-            color = Primary100,
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }

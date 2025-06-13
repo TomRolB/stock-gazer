@@ -7,7 +7,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.stockgazer.R
-import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.StockGazerTheme
 
 @Composable
@@ -15,7 +14,7 @@ fun Display(text: String) {
     Text(
         text,
         style = MaterialTheme.typography.displayLarge,
-        color = Primary100,
+        color = MaterialTheme.colorScheme.primary,
         fontWeight = FontWeight.Bold
     )
 }

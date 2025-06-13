@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
@@ -18,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.example.stockgazer.R
 import com.example.stockgazer.ui.theme.IconMedium
-import com.example.stockgazer.ui.theme.Primary100
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -45,7 +45,7 @@ fun TimeField(
         value = initialTime.format(DateTimeFormatter.ofPattern("h:mm a")),
         onValueChange = {},
         readOnly = true,
-        label = { Text(label, color = Primary100) },
+        label = { Text(label, color = MaterialTheme.colorScheme.primary) },
         trailingIcon = {
             IconButton(onClick = { showPicker = true }) {
                 Icon(
@@ -56,6 +56,6 @@ fun TimeField(
             }
         },
         modifier = modifier,
-        textStyle = LocalTextStyle.current.copy(color = Primary100)
+        textStyle = LocalTextStyle.current.copy(color = MaterialTheme.colorScheme.primary)
     )
 }

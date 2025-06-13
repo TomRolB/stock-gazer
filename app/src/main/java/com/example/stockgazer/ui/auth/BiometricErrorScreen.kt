@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +26,6 @@ import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.text.Headline
 import com.example.stockgazer.ui.theme.HeadlineToTextSpacing
 import com.example.stockgazer.ui.theme.IconToTextVerticalSpacingMedium
-import com.example.stockgazer.ui.theme.Primary100
 
 @Composable
 fun BiometricErrorScreen(innerPadding: PaddingValues, errorTitle: String, errorMessage: String) {
@@ -45,7 +45,7 @@ fun BiometricErrorScreen(innerPadding: PaddingValues, errorTitle: String, errorM
             Spacer(modifier = Modifier.height(IconToTextVerticalSpacingMedium))
             Headline(errorTitle)
             Spacer(modifier = Modifier.height(HeadlineToTextSpacing))
-            Text(errorMessage, color = Primary100, textAlign = TextAlign.Center)
+            Text(errorMessage, color = MaterialTheme.colorScheme.primary, textAlign = TextAlign.Center)
         }
     }
 }

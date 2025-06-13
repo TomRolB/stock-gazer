@@ -17,6 +17,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -39,7 +40,6 @@ import com.example.stockgazer.ui.theme.DividerHorizontalPadding
 import com.example.stockgazer.ui.theme.ElementSpacing
 import com.example.stockgazer.ui.theme.HeadlineToIconSpacing
 import com.example.stockgazer.ui.theme.PaddingMedium
-import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.Primary800
 import com.example.stockgazer.ui.theme.SectionSpacing
 
@@ -67,7 +67,7 @@ fun HomeScreen(navController: NavHostController) {
                 Icon(
                     painter = painterResource(id = R.drawable.four_star_filled),
                     contentDescription = stringResource(R.string.four_star_icon_content_description),
-                    tint = Primary100
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         }
@@ -104,14 +104,14 @@ private fun FollowListSection(
 
     if (followList.isEmpty()) {
         Card(
-            colors = CardDefaults.cardColors(containerColor = Primary800),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(CardBorderRadius),
         ) {
             Box(
                 modifier = Modifier.padding(PaddingMedium)
             ) {
-                Text(stringResource(R.string.empty_followed_stock_message), color = Primary100)
+                Text(stringResource(R.string.empty_followed_stock_message), color = MaterialTheme.colorScheme.primary)
             }
         }
 
@@ -130,7 +130,7 @@ private fun FollowListSection(
                     navController.navigate("${StockGazerScreen.Chart.name}/${stock.symbol}")
                 })
             if (count < followList.size) HorizontalDivider(
-                color = Primary100.copy(alpha = 0.5f),
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
                 modifier = Modifier.padding(horizontal = DividerHorizontalPadding)
             )
             count++

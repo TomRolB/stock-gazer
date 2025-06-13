@@ -1,5 +1,6 @@
 package com.example.stockgazer.ui.components.charts
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -8,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.stockgazer.ui.screens.chart.ChartViewModel
-import com.example.stockgazer.ui.theme.Primary100
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberEnd
@@ -45,15 +45,15 @@ fun CandlestickChart(modifier: Modifier = Modifier) {
             rememberCartesianChart(
                 rememberCandlestickCartesianLayer(
                     rangeProvider = RangeProvider,
-                    candleProvider = CandleProvider
+                    candleProvider = getCandleProvider(MaterialTheme.colorScheme)
                 ),
                 endAxis = VerticalAxis.rememberEnd(
-                    label = TextComponent(color = Primary100.toArgb()),
+                    label = TextComponent(color = MaterialTheme.colorScheme.primary.toArgb()),
                     valueFormatter = StartAxisValueFormatter,
                     itemPlacer = SteppedItemPlacer,
                 ),
                 bottomAxis = HorizontalAxis.rememberBottom(
-                    label = TextComponent(color = Primary100.toArgb()),
+                    label = TextComponent(color = MaterialTheme.colorScheme.primary.toArgb()),
                     guideline = null,
                     valueFormatter = BottomAxisValueFormatter(
                         bars.timestamps,

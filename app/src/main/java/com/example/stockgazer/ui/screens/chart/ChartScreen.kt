@@ -16,6 +16,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -34,9 +35,7 @@ import com.example.stockgazer.ui.components.YourTradesSection
 import com.example.stockgazer.ui.components.charts.CandlestickChart
 import com.example.stockgazer.ui.components.text.Headline
 import com.example.stockgazer.ui.theme.CircularProgressIndicatorSize
-import com.example.stockgazer.ui.theme.Loss300
 import com.example.stockgazer.ui.theme.NumbersHorizontalSpacing
-import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.SectionSpacing
 import com.example.stockgazer.util.asPercentageString
 import com.example.stockgazer.ui.screens.shared.UserViewModel
@@ -73,11 +72,11 @@ fun ChartScreen(symbol: String) {
 
         Spacer(modifier = Modifier.height(SectionSpacing))
         Row(horizontalArrangement = Arrangement.spacedBy(NumbersHorizontalSpacing)) {
-            Text(latestPrice.value.toString(), color = Primary100)
+            Text(latestPrice.value.toString(), color = MaterialTheme.colorScheme.primary)
             Text(
                 text = latestPrice.dailyPercentChange.asPercentageString(),
                 fontWeight = FontWeight.Bold,
-                color = Loss300
+                color = MaterialTheme.colorScheme.tertiaryContainer
             )
         }
 
@@ -118,9 +117,9 @@ private fun Header(
                     else R.drawable.four_star_outlined
                 ),
                 contentDescription = stringResource(R.string.four_star_icon_content_description),
-                tint = Primary100
+                tint = MaterialTheme.colorScheme.primary
             )
         }
     }
-    Text(companyInfo.name, color = Primary100)
+    Text(companyInfo.name, color = MaterialTheme.colorScheme.primary)
 }

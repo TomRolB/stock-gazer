@@ -1,10 +1,8 @@
 package com.example.stockgazer.ui.components.charts
 
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.material3.ColorScheme
 import com.example.stockgazer.ui.theme.CandleThickness
-import com.example.stockgazer.ui.theme.Gain500
-import com.example.stockgazer.ui.theme.Loss500
-import com.example.stockgazer.ui.theme.Primary100
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianLayerRangeProvider
 import com.patrykandpatrick.vico.core.cartesian.layer.CandlestickCartesianLayer
 import com.patrykandpatrick.vico.core.cartesian.layer.CandlestickCartesianLayer.Candle
@@ -24,20 +22,21 @@ val RangeProvider =
             Y_STEP * ceil(maxY / Y_STEP)
     }
 
-val CandleProvider = CandlestickCartesianLayer.CandleProvider.absolute(
-    bullish = Candle(body = LineComponent(
-        fill = Fill(Gain500.toArgb()),
-        thicknessDp = CandleThickness
+fun getCandleProvider(colors: ColorScheme): CandlestickCartesianLayer.CandleProvider =
+    CandlestickCartesianLayer.CandleProvider.absolute(
+        bullish = Candle(body = LineComponent(
+            fill = Fill(colors.secondaryContainer.toArgb()),
+            thicknessDp = CandleThickness
+        )
+        ),
+        neutral = Candle(body = LineComponent(
+            fill = Fill(colors.primary.toArgb()),
+            thicknessDp = CandleThickness
+        )
+        ),
+        bearish = Candle(body = LineComponent(
+            fill = Fill(colors.tertiaryContainer.toArgb()),
+            thicknessDp = CandleThickness
+        )
+        )
     )
-    ),
-    neutral = Candle(body = LineComponent(
-        fill = Fill(Primary100.toArgb()),
-        thicknessDp = CandleThickness
-    )
-    ),
-    bearish = Candle(body = LineComponent(
-        fill = Fill(Loss500.toArgb()),
-        thicknessDp = CandleThickness
-    )
-    )
-)

@@ -14,6 +14,7 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -35,12 +36,9 @@ import com.example.stockgazer.ui.screens.chart.TradeType.Buy
 import com.example.stockgazer.ui.screens.chart.TradeType.Sell
 import com.example.stockgazer.ui.theme.CardBorderRadius
 import com.example.stockgazer.ui.theme.ElementSpacing
-import com.example.stockgazer.ui.theme.Gain300
 import com.example.stockgazer.ui.theme.HeadlineToIconSpacing
 import com.example.stockgazer.ui.theme.InputSpacing
-import com.example.stockgazer.ui.theme.Loss300
 import com.example.stockgazer.ui.theme.PaddingMedium
-import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.Primary300
 import com.example.stockgazer.ui.theme.Primary700
 import com.example.stockgazer.ui.theme.Primary800
@@ -51,7 +49,7 @@ fun TradeCreationCard() {
     val viewModel = hiltViewModel<ChartViewModel>()
 
     Card(
-        colors = CardDefaults.cardColors(containerColor = Primary800),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(CardBorderRadius),
     ) {
@@ -83,27 +81,27 @@ private fun TradeCreationFields() {
         ) {
             OutlinedTextField(
                 label = {
-                    Text(stringResource(R.string.amount_traded_field_label), color = Primary100)
+                    Text(stringResource(R.string.amount_traded_field_label), color = MaterialTheme.colorScheme.primary)
                 },
                 value = currentTrade.amount,
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 onValueChange = {
                     viewModel.updateTradeAmount(it)
                 },
-                textStyle = LocalTextStyle.current.copy(color = Primary100),
+                textStyle = LocalTextStyle.current.copy(color = MaterialTheme.colorScheme.primary),
                 modifier = Modifier.weight(1f)
             )
 
             OutlinedTextField(
                 label = {
-                    Text(stringResource(R.string.price_field_label), color = Primary100)
+                    Text(stringResource(R.string.price_field_label), color = MaterialTheme.colorScheme.primary)
                 },
                 value = currentTrade.price,
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 onValueChange = {
                     viewModel.updateTradePrice(it)
                 },
-                textStyle = LocalTextStyle.current.copy(color = Primary100),
+                textStyle = LocalTextStyle.current.copy(color = MaterialTheme.colorScheme.primary),
                 modifier = Modifier.weight(2f)
             )
         }
@@ -138,11 +136,11 @@ private fun TradeType(viewModel: ChartViewModel) {
         }) {
         SingleChoiceSegmentedButtonRow {
             val colors = SegmentedButtonDefaults.colors().copy(
-                activeContainerColor = Primary700,
-                inactiveContainerColor = Primary800,
+                activeContainerColor = MaterialTheme.colorScheme.surface,
+                inactiveContainerColor = MaterialTheme.colorScheme.primaryContainer,
             )
             SegmentedButton(
-                colors = colors.copy(activeContentColor = Gain300),
+                colors = colors.copy(activeContentColor = MaterialTheme.colorScheme.secondary),
                 selected = currentTrade.type == Buy,
                 onClick = { viewModel.toggleTradeType() },
                 shape = SegmentedButtonDefaults.itemShape(
@@ -151,12 +149,12 @@ private fun TradeType(viewModel: ChartViewModel) {
             ) {
                 Text(
                     stringResource(R.string.buy),
-                    color = Gain300,
+                    color = MaterialTheme.colorScheme.secondary,
                 )
             }
 
             SegmentedButton(
-                colors = colors.copy(activeContentColor = Loss300),
+                colors = colors.copy(activeContentColor = MaterialTheme.colorScheme.tertiaryContainer),
                 selected = currentTrade.type == Sell,
                 onClick = { viewModel.toggleTradeType() },
                 shape = SegmentedButtonDefaults.itemShape(
@@ -165,7 +163,7 @@ private fun TradeType(viewModel: ChartViewModel) {
             ) {
                 Text(
                     stringResource(R.string.sell),
-                    color = Loss300,
+                    color = MaterialTheme.colorScheme.tertiaryContainer,
                 )
             }
         }
@@ -185,8 +183,8 @@ private fun TradeCreationButtons(viewModel: ChartViewModel) {
                     price != null &&
                     price > 0,
             onClick = { viewModel.submitTrade() }, colors = ButtonColors(
-                containerColor = Primary100,
-                contentColor = Primary900,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.background,
                 disabledContainerColor = Primary300,
                 disabledContentColor = Primary700
             )

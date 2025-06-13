@@ -13,7 +13,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import coil3.compose.SubcomposeAsyncImage
 import com.example.stockgazer.ui.theme.LogoImageSize
-import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.Primary700
 
 @Composable
@@ -30,10 +29,13 @@ fun Logo(logoUrl: String, symbol: String) {
 
 @Composable
 fun DefaultLogo(symbol: String) {
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.background(color = Primary700)) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.background(color = MaterialTheme.colorScheme.surface)
+    ) {
         Text(
             symbol.first().uppercase(),
-            color = Primary100,
+            color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.headlineLarge
         )

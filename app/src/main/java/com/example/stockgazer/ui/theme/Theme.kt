@@ -1,6 +1,5 @@
 package com.example.stockgazer.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -12,32 +11,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    background = Primary900,
+    primary = Primary100,
+    primaryContainer = Primary800,
+    surface = Primary700,
+    secondary = Gain300,
+    secondaryContainer = Gain500,
+    tertiary = Loss300,
+    tertiaryContainer = Loss500
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    background = Primary100,
+    primary = Primary900,
+    primaryContainer = Primary200,
+    surface = Primary300,
+    secondary = Gain700,
+    secondaryContainer = Gain500,
+    tertiary = Loss700,
+    tertiaryContainer = Loss500
 )
 
 @Composable
 fun StockGazerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

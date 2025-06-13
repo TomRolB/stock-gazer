@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,7 +29,6 @@ import com.example.stockgazer.ui.screens.chart.ChartViewModel
 import com.example.stockgazer.ui.screens.chart.LatestPrice
 import com.example.stockgazer.ui.screens.shared.UserViewModel
 import com.example.stockgazer.ui.theme.ElementSpacing
-import com.example.stockgazer.ui.theme.Primary100
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
@@ -64,7 +64,7 @@ fun YourTradesSection(latestPrice: LatestPrice) {
             Icon(
                 painter = painterResource(id = R.drawable.add),
                 contentDescription = stringResource(R.string.add_icon_content_description),
-                tint = Primary100,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.rotate(rotationAngle)
             )
         }
