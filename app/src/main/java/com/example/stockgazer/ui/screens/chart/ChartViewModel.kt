@@ -26,6 +26,9 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 
 @HiltViewModel
 class ChartViewModel @Inject constructor(
@@ -33,7 +36,16 @@ class ChartViewModel @Inject constructor(
     private val alpacaDetailsDatasource: AlpacaDetailsDatasource,
     val zoneIdProvider: ResourceZoneIdProvider,
     @ApplicationContext private val context: Context,
+    private val auth: FirebaseAuth
 ) : ViewModel() {
+    private val _userIdFlow = MutableStateFlow(auth.currentUser?.uid)
+
+    init {
+        auth.addAuthStateListener { firebaseAuth ->
+            _userIdFlow.value = firebaseAuth.currentUser?.uid
+        }
+    }
+
     private val database = StockGazerDatabase.getDatabase(context)
 
     private var _showTradeCreationModal = MutableStateFlow(false)
@@ -43,15 +55,18 @@ class ChartViewModel @Inject constructor(
     val companyInfo = _companyInfo.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val isFavorite = _companyInfo
-        .filterNotNull()
-        .flatMapLatest { companyInfo ->
-            database.favoriteStockDao().isStockFavorite(companyInfo.symbol).asFlow()
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = false
-        )
+    val isFavorite: StateFlow<Boolean> = combine(
+        _companyInfo.filterNotNull(),
+        _userIdFlow
+    ) { companyInfo, uid -> companyInfo.symbol to uid }
+    .flatMapLatest { (symbol, uid) ->
+        if (uid == null) flowOf(false)
+        else database.favoriteStockDao().isStockFavorite(symbol, uid).asFlow()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = false
+    )
 
     private var _latestPrice = MutableStateFlow(
         LatestPrice(
@@ -71,15 +86,18 @@ class ChartViewModel @Inject constructor(
     val currentTrade = _currentTrade.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val trades: StateFlow<List<Trade>> = _companyInfo
-        .filterNotNull()
-        .flatMapLatest { companyInfo ->
-            database.tradeDao().getAllTradesOfSymbol(companyInfo.symbol).asFlow()
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
-        )
+    val trades: StateFlow<List<Trade>> = combine(
+        _companyInfo.filterNotNull(),
+        _userIdFlow
+    ) { companyInfo, uid -> companyInfo.symbol to uid }
+    .flatMapLatest { (symbol, uid) ->
+        if (uid == null) flowOf(emptyList())
+        else database.tradeDao().getAllTradesOfSymbol(symbol, uid).asFlow()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList()
+    )
 
     private var _chartLoadState = MutableStateFlow(ChartLoadState())
     val loadState = _chartLoadState.asStateFlow()
@@ -126,10 +144,11 @@ class ChartViewModel @Inject constructor(
 
     fun toggleFavorite(isFavorite: Boolean) {
         viewModelScope.launch {
+            val uid = auth.currentUser?.uid ?: return@launch
             val symbol = _companyInfo.value.symbol
 
-            if (isFavorite) database.favoriteStockDao().deleteFavoriteStock(symbol)
-            else database.favoriteStockDao().insert(FavoriteStock(symbol))
+            if (isFavorite) database.favoriteStockDao().deleteFavoriteStock(symbol, uid)
+            else database.favoriteStockDao().insert(FavoriteStock(uid, symbol))
         }
     }
 
@@ -185,6 +204,7 @@ class ChartViewModel @Inject constructor(
             val trade = _currentTrade.value
             database.tradeDao().insert(
                 Trade(
+                    auth.currentUser?.uid ?: return@launch,
                     _companyInfo.value.symbol,
                     trade.type,
                     trade.amount,

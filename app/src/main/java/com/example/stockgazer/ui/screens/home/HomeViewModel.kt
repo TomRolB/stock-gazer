@@ -21,6 +21,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -28,14 +32,20 @@ class HomeViewModel @Inject constructor(
     private val alpacaBarDatasource: AlpacaBarDatasource,
     private val detailsDatasource: AlpacaDetailsDatasource,
     @ApplicationContext private val context: Context,
+    auth: FirebaseAuth
 ) : ViewModel() {
     private val database = StockGazerDatabase.getDatabase(context)
+
+    private val _userIdFlow = MutableStateFlow(auth.currentUser?.uid)
 
     private var _favorites = MutableStateFlow(listOf<FollowedStockData>())
     val favorites = _favorites.asStateFlow()
 
-    val favoriteSymbols = database.favoriteStockDao().getFavoriteStocks().asFlow()
-
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val _favoriteSymbols = _userIdFlow.flatMapLatest { uid ->
+        if (uid == null) flowOf(emptyList())
+        else database.favoriteStockDao().getFavoriteStocks(uid).asFlow()
+    }
 
     private var _topMarketMovers = MutableStateFlow(TopMarketMoversResponse())
 
@@ -49,11 +59,14 @@ class HomeViewModel @Inject constructor(
         loadFavorites()
         loadTopMarketMovers()
         loadMostActiveStock()
+        auth.addAuthStateListener { firebaseAuth ->
+            _userIdFlow.value = firebaseAuth.currentUser?.uid
+        }
     }
 
     private fun loadFavorites() {
         viewModelScope.launch {
-            favoriteSymbols.collect { symbols ->
+            _favoriteSymbols.collect { symbols ->
                 if (symbols.isEmpty()) {
                     _homeLoadState.emit(_homeLoadState.value.copy(favoritesLoaded = true))
                     return@collect

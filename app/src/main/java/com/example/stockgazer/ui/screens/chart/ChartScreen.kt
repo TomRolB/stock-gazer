@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -38,6 +39,7 @@ import com.example.stockgazer.ui.theme.NumbersHorizontalSpacing
 import com.example.stockgazer.ui.theme.Primary100
 import com.example.stockgazer.ui.theme.SectionSpacing
 import com.example.stockgazer.util.asPercentageString
+import com.example.stockgazer.ui.screens.shared.UserViewModel
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @Composable
@@ -96,13 +98,19 @@ private fun Header(
     isFavorite: Boolean,
     companyInfo: CompanyInfo
 ) {
+    val userViewModel = hiltViewModel<UserViewModel>()
+    val userData by userViewModel.userData.collectAsState()
+    val context = LocalContext.current
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Headline(symbol)
         IconButton(
-            onClick = { viewModel.toggleFavorite(isFavorite) }
+            onClick = {
+                if (userData == null) userViewModel.launchCredentialManager(context)
+                else viewModel.toggleFavorite(isFavorite)
+            }
         ) {
             Icon(
                 painter = painterResource(

@@ -8,6 +8,7 @@ import java.time.LocalDateTime
 
 @Entity
 data class FavoriteStock(
+    val userId: String,
     val symbol: String,
     @PrimaryKey(autoGenerate = true) val id: Long = 0
 )
@@ -15,6 +16,7 @@ data class FavoriteStock(
 @Entity
 @TypeConverters(Converters::class)
 data class Trade(
+    val userId: String,
     val symbol: String,
     val type: TradeType,
     val amount: String,
