@@ -1,9 +1,13 @@
 package com.example.stockgazer.ui.navigation
 
+import android.Manifest
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -12,9 +16,21 @@ import com.example.stockgazer.ui.screens.SearchScreen
 import com.example.stockgazer.ui.screens.chart.ChartScreen
 import com.example.stockgazer.ui.screens.home.HomeScreen
 import com.example.stockgazer.ui.theme.PaddingMedium
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
+    val postNotificationPermission = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
+    LaunchedEffect(Unit) {
+        if (!postNotificationPermission.status.isGranted) {
+            postNotificationPermission.launchPermissionRequest()
+        }
+    }
+
     NavHost(
         navController = navController,
         startDestination = StockGazerScreen.Home.name,
