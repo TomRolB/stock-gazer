@@ -55,9 +55,9 @@ fun ChartScreen(symbol: String, navController: NavHostController) {
     val companyInfo by chartViewModel.companyInfo.collectAsState()
     val loadState by chartViewModel.loadState.collectAsState()
 
-    chartViewModel.load(symbol)
 
     if (!loadState.detailsLoaded || !loadState.snapshotLoaded || (!loadState.barsLoaded && !loadState.barsError)) {
+        chartViewModel.load(symbol)
         Box(contentAlignment = Alignment.Center) {
             CircularProgressIndicator(modifier = Modifier.size(CircularProgressIndicatorSize))
         }

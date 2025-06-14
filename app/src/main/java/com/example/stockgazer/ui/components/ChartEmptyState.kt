@@ -36,7 +36,7 @@ fun ChartEmptyState(navController: NavHostController) {
                 Text(
                     text = stringResource(R.string.chart_empty_subtitle),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                    color = MaterialTheme.colorScheme.background
                 )
             }
         }

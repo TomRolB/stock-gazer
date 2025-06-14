@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.stockgazer.R
 import com.example.stockgazer.ui.components.images.Logo
+import com.example.stockgazer.ui.theme.IconToTextSpacingMedium
 import com.example.stockgazer.ui.theme.IconToTextSpacingSmall
 import com.example.stockgazer.ui.theme.PaddingSmall
 
@@ -20,8 +21,8 @@ fun SymbolTile(symbol: String, modifier: Modifier = Modifier) {
         modifier = modifier
             .padding(vertical = PaddingSmall)
             .padding(horizontal = PaddingSmall),
-        horizontalArrangement = Arrangement.spacedBy(IconToTextSpacingSmall),
-        verticalAlignment = Alignment.CenterVertically
+        horizontalArrangement = Arrangement.spacedBy(IconToTextSpacingMedium),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         val logoUrl = stringResource(R.string.logos_url) + "$symbol.png"
         Logo(logoUrl, symbol)

@@ -31,7 +31,7 @@ fun ChartErrorState(navController: NavHostController) {
                 Text(
                     text = stringResource(R.string.chart_error_button),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.background
                 )
             }
         }
