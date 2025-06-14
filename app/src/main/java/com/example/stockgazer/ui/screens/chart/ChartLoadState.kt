@@ -4,6 +4,7 @@ data class ChartLoadState(
     val detailsLoaded: Boolean = false,
     val snapshotLoaded: Boolean = false,
     val barsLoaded: Boolean = false,
+    val barsError: Boolean = false,
 ) {
     fun all() = detailsLoaded && snapshotLoaded && barsLoaded
 }

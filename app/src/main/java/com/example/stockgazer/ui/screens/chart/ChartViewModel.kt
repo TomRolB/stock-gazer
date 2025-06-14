@@ -134,12 +134,23 @@ class ChartViewModel @Inject constructor(
     }
 
     private fun loadBars(symbol: String) {
-        alpacaBarDatasource.getBarsFromSymbol(symbol, onSuccess = {
-            viewModelScope.launch {
-                _bars.emit(BarPeriod.fromBarResponse(it))
-                _chartLoadState.emit(_chartLoadState.value.copy(barsLoaded = true))
-            }
-        }, onFail = {}, loadingFinished = {})
+        alpacaBarDatasource.getBarsFromSymbol(symbol,
+            onSuccess = { response ->
+                viewModelScope.launch {
+                    try {
+                        _bars.emit(BarPeriod.fromBarResponse(response))
+                        _chartLoadState.emit(_chartLoadState.value.copy(barsLoaded = true))
+                    } catch (t: Throwable) {
+                        _chartLoadState.emit(_chartLoadState.value.copy(barsError = true))
+                    }
+                }
+            },
+            onFail = {
+                viewModelScope.launch {
+                    _chartLoadState.emit(_chartLoadState.value.copy(barsError = true))
+                }
+            },
+            loadingFinished = {})
     }
 
     fun toggleFavorite(isFavorite: Boolean) {

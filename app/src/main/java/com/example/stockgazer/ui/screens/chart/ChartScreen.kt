@@ -39,10 +39,12 @@ import com.example.stockgazer.ui.theme.NumbersHorizontalSpacing
 import com.example.stockgazer.ui.theme.SectionSpacing
 import com.example.stockgazer.util.asPercentageString
 import com.example.stockgazer.ui.screens.shared.UserViewModel
+import androidx.navigation.NavHostController
+import com.example.stockgazer.ui.components.ChartErrorState
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @Composable
-fun ChartScreen(symbol: String) {
+fun ChartScreen(symbol: String, navController: NavHostController) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
 
@@ -55,10 +57,15 @@ fun ChartScreen(symbol: String) {
 
     chartViewModel.load(symbol)
 
-    if (!loadState.all()) {
+    if (!loadState.detailsLoaded || !loadState.snapshotLoaded || (!loadState.barsLoaded && !loadState.barsError)) {
         Box(contentAlignment = Alignment.Center) {
             CircularProgressIndicator(modifier = Modifier.size(CircularProgressIndicatorSize))
         }
+        return
+    }
+
+    if (loadState.barsError) {
+        ChartErrorState(navController)
         return
     }
 

@@ -64,7 +64,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
                     )
                 }
             } else if (favorites.isNotEmpty()) {
-                ChartScreen(favorites.first().symbol)
+                ChartScreen(favorites.first().symbol, navController)
             } else {
                 ChartEmptyState(navController)
             }
@@ -76,7 +76,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
             val favorites by homeViewModel.favorites.collectAsStateWithLifecycle()
             val symbol = symbolArg ?: favorites.firstOrNull()?.symbol
             if (symbol != null) {
-                ChartScreen(symbol)
+                ChartScreen(symbol, navController)
             } else {
                 ChartEmptyState(navController)
             }

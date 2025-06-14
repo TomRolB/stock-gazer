@@ -48,4 +48,6 @@
     <string name="icon_rotation">Icon Rotation</string>
     <string name="chart_empty_title">Nothing here yet</string>
     <string name="chart_empty_subtitle">Start by searching a stock</string>
+    <string name="chart_error_title">We are sorry, there is no data for this symbol</string>
+    <string name="chart_error_button">Search another symbol</string>
 </resources>
