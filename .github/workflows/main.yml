@@ -40,6 +40,8 @@ jobs:
           <?xml version="1.0" encoding="utf-8"?>
           <resources>
             <string name="firebase_web_client_id">${{ secrets.FIREBASE_WEB_CLIENT_ID }}</string>
+            <string name="APCA_API_KEY_ID">${{ secrets.APCA_API_KEY_ID }}</string>
+            <string name="APCA_API_SECRET_KEY">${{ secrets.APCA_API_SECRET_KEY }}</string>
           </resources>
           EOF
 
