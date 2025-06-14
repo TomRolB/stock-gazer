@@ -46,4 +46,6 @@
     <string name="search_symbols">Search symbols</string>
     <string name="app_logo_content_description">App Logo</string>
     <string name="icon_rotation">Icon Rotation</string>
+    <string name="chart_empty_title">Nothing here yet</string>
+    <string name="chart_empty_subtitle">Start by searching a stock</string>
 </resources>
