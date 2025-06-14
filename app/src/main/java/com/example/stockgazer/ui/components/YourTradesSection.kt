@@ -39,7 +39,7 @@ fun YourTradesSection(latestPrice: LatestPrice) {
     val trades = viewModel.trades.collectAsState(emptyList())
     val rotationAngle by animateFloatAsState(
         targetValue = if (showTradeCreationModal.value) 45f else 0f,
-        label = "Icon Rotation"
+        label = stringResource(R.string.icon_rotation)
     )
 
     val userViewModel = hiltViewModel<UserViewModel>()

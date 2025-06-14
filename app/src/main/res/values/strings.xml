@@ -43,4 +43,7 @@
     <string name="biometric_status_unknown_description">We couldn\'t determine the status of biometric authentication.</string>
     <string name="biometric_error_none_enrolled_title">No Biometrics Enrolled</string>
     <string name="biometric_error_none_enrolled_description">You need to enroll a fingerprint in your device settings to use biometric authentication.</string>
+    <string name="search_symbols">Search symbols</string>
+    <string name="app_logo_content_description">App Logo</string>
+    <string name="icon_rotation">Icon Rotation</string>
 </resources>

@@ -53,7 +53,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         }
 
         composable(route = StockGazerScreen.Search.name) {
-            SearchScreen()
+            SearchScreen(navController)
         }
     }
 }
